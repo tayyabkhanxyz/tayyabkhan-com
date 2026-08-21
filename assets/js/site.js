@@ -13,14 +13,15 @@
   document.addEventListener('DOMContentLoaded', function () {
 
     /* ---- theme ---- */
-    var btn = document.querySelector('.theme-btn');
-    if (btn) {
-      btn.textContent = isDark() ? '☀' : '☾';
-      btn.addEventListener('click', function () {
+    var tog = document.querySelector('.tog');
+    if (tog) {
+      var paint = function () { tog.setAttribute('aria-pressed', isDark() ? 'true' : 'false'); };
+      paint();
+      tog.addEventListener('click', function () {
         var next = isDark() ? 'light' : 'dark';
         root.setAttribute('data-theme', next);
         try { localStorage.setItem('theme', next); } catch (e) {}
-        btn.textContent = next === 'dark' ? '☀' : '☾';
+        paint();
       });
     }
 
