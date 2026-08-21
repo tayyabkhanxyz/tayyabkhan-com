@@ -1,17 +1,17 @@
 /* tayyabkhan.com — white paper, grey ink, grain, doodle rules */
 
 :root{
-  --bg:#ffffff;
-  --raise:#f6f6f5;
-  --ink:#0f0f0e;
-  --body:#1c1c1b;
-  --muted:#3d3d3b;
-  --faint:#5e5e5b;
-  --line:#e2e2de;
-  --skin:#ffffff;
+  --bg:#fafafa;          /* reysu's palette, measured off their site */
+  --raise:#f0f0f0;
+  --ink:#1a1a1a;
+  --body:#666666;
+  --muted:#888888;
+  --faint:#9a9a9a;
+  --line:#dddddd;
+  --skin:#fafafa;
   --glow:rgba(20,20,20,.30);
   --grain:.055;
-  --track:#c9c9c4;
+  --track:#39393d;
   --pop:#c0392b;
   --col:46rem;
   --pad:clamp(1.25rem,5vw,2rem);
@@ -20,16 +20,16 @@
   color-scheme:light;
 }
 :root[data-theme="dark"]{
-  --bg:#0d0d0c; --raise:#161615; --ink:#e6e6e2; --body:#9d9d98;
-  --muted:#7c7c77; --faint:#55554f; --line:#232322; --skin:#0d0d0c;
-  --glow:rgba(255,255,255,.40); --grain:.075; --pop:#e04b32; --track:#39393d;
+  --bg:#0a0a0a; --raise:#141414; --ink:#e5e5e5; --body:#888888;
+  --muted:#777777; --faint:#666666; --line:#222222; --skin:#0a0a0a;
+  --glow:rgba(255,255,255,.40); --grain:.075; --pop:#e04b32;
   color-scheme:dark;
 }
 @media (prefers-color-scheme:dark){
   :root:not([data-theme="light"]){
-    --bg:#0d0d0c; --raise:#161615; --ink:#e6e6e2; --body:#9d9d98;
-    --muted:#7c7c77; --faint:#55554f; --line:#232322; --skin:#0d0d0c;
-    --glow:rgba(255,255,255,.40); --grain:.075; --pop:#e04b32; --track:#39393d;
+    --bg:#0a0a0a; --raise:#141414; --ink:#e5e5e5; --body:#888888;
+    --muted:#777777; --faint:#666666; --line:#222222; --skin:#0a0a0a;
+    --glow:rgba(255,255,255,.40); --grain:.075; --pop:#e04b32;
     color-scheme:dark;
   }
 }
