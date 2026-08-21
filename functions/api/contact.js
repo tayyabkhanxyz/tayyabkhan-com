@@ -3,7 +3,7 @@
  *
  * Setup (once, in the Cloudflare dashboard → Pages project → Settings → Variables):
  *   RESEND_API_KEY   secret, from https://resend.com  (free tier: 3,000 emails/month)
- *   TO_EMAIL         where enquiries land, e.g. tayyabkhanfilmz@gmail.com
+ *   TO_EMAIL         where enquiries land, e.g. tayyabkhanwork@gmail.com
  *   FROM_EMAIL       a verified sender on your domain, e.g. site@tayyabkhan.com
  *
  * Until those exist the endpoint returns 500 and the form falls back to

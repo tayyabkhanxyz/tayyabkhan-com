@@ -93,7 +93,7 @@
           msg.textContent = 'got it. i’ll reply in a couple of days — sooner if the coffee works.';
         }).catch(function () {
           msg.innerHTML = 'the form isn’t wired up yet — email me at ' +
-            '<a href="mailto:tayyabkhanfilmz@gmail.com">tayyabkhanfilmz@gmail.com</a>.';
+            '<a href="mailto:tayyabkhanwork@gmail.com">tayyabkhanwork@gmail.com</a>.';
         }).finally(function () { b.disabled = false; });
       });
     }
@@ -101,6 +101,6 @@
 
   try {
     console.log('%cyou opened the console. respect.', 'font:600 13px ui-monospace,monospace');
-    console.log('%cbuilt by hand in lahore · tayyabkhanfilmz@gmail.com', 'font:12px ui-monospace,monospace');
+    console.log('%cbuilt by hand in lahore · tayyabkhanwork@gmail.com', 'font:12px ui-monospace,monospace');
   } catch (e) {}
 })();
