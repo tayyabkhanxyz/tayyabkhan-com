@@ -46,22 +46,6 @@
       setInterval(tick, 15000);
     }
 
-    /* ---- hand-drawn frames on the video thumbnails ---- */
-    document.querySelectorAll('.vid .t').forEach(function (t, i) {
-      var d = document.createElement('div');
-      // three slightly different rough rectangles; hover cycles them so the line "boils"
-      d.innerHTML =
-        '<svg class="frame" viewBox="0 0 200 112" preserveAspectRatio="none" aria-hidden="true">' +
-        '<path d="M4.5 5.2C60 3.4 140 6.3 195.4 4.4c1.6 34 .4 69 .3 103.2C140 109.6 60 106.8 4.6 108.7 3 74 5 39 4.5 5.2Z"/>' +
-        '<path d="M5.2 4.3C61 6.2 139 3.5 195 5.6c-1.3 35 1 70 .2 102.4-56-2.2-134 .8-190.4-1.2C6 73 3.8 38 5.2 4.3Z"/>' +
-        '<path d="M4.1 5.8C59 4.1 141 7 195.8 3.9c.6 33 -.8 70 .4 103.9-55 1.4-137-1.6-191.6.4C5.4 74 2.9 39 4.1 5.8Z"/>' +
-        '</svg>';
-      t.appendChild(d.firstChild);
-      // stagger each card so a grid of them never boils in unison
-      var f = t.querySelector('.frame');
-      if (f) f.style.setProperty('--o', (i % 3) * 0.11 + 's');
-    });
-
     /* ---- photography lightbox ---- */
     var shots = Array.prototype.slice.call(document.querySelectorAll('.shot'));
     if (shots.length) {
