@@ -46,6 +46,16 @@ export default {
         redirect: 'manual',
       });
       const out = new Response(upstream.body, upstream);
+
+      // That site strips .html and answers with root-relative redirects like
+      // "/bored". Left alone the browser resolves those against tayyabkhan.com
+      // and lands outside /noor entirely, so re-point them back under the path.
+      const loc = upstream.headers.get('location');
+      if (loc) {
+        if (loc.startsWith('/')) out.headers.set('location', '/noor' + loc);
+        else if (loc.startsWith(NOOR_ORIGIN)) out.headers.set('location', '/noor' + loc.slice(NOOR_ORIGIN.length));
+      }
+
       // personal page: reachable if he sends the link, invisible to search
       out.headers.set('X-Robots-Tag', 'noindex, nofollow');
       return out;
