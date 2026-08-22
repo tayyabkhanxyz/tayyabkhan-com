@@ -5,7 +5,11 @@
   "assets": {
     "directory": ".",
     "binding": "ASSETS",
-    "not_found_handling": "404-page"
+    "not_found_handling": "404-page",
+    // assets are served at the edge without invoking the Worker unless this
+    // is set -- which is why the www redirect and security headers were
+    // silently doing nothing.
+    "run_worker_first": true
   },
 
   // Plain (non-secret) config. These live here rather than in the dashboard
