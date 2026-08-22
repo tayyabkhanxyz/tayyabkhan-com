@@ -32,8 +32,20 @@ export async function onRequestPost({ request, env }) {
     return json({ error: 'too long' }, 400);
   if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) return json({ error: 'bad email' }, 400);
 
-  if (!env.RESEND_API_KEY || !env.TO_EMAIL || !env.FROM_EMAIL)
-    return json({ error: 'not configured' }, 500);
+  if (!env.RESEND_API_KEY || !env.TO_EMAIL || !env.FROM_EMAIL) {
+    // report WHICH variable is missing, never its value
+    return json(
+      {
+        error: 'not configured',
+        present: {
+          RESEND_API_KEY: Boolean(env.RESEND_API_KEY),
+          TO_EMAIL: Boolean(env.TO_EMAIL),
+          FROM_EMAIL: Boolean(env.FROM_EMAIL),
+        },
+      },
+      500
+    );
+  }
 
   const res = await fetch('https://api.resend.com/emails', {
     method: 'POST',
