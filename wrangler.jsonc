@@ -5,5 +5,18 @@
   "assets": {
     "directory": ".",
     "binding": "ASSETS"
+  },
+
+  // Plain (non-secret) config. These live here rather than in the dashboard
+  // because `wrangler deploy` treats this file as the source of truth for
+  // vars -- anything set only in the dashboard gets cleared on each deploy.
+  // Neither of these is sensitive: the address is already public on the site.
+  "vars": {
+    "TO_EMAIL": "tayyabkhanwork@gmail.com",
+    "FROM_EMAIL": "onboarding@resend.dev"
   }
+
+  // RESEND_API_KEY is NOT here. It is a secret, so it is set once in
+  // Cloudflare (Settings -> Variables and Secrets, type: Secret) and
+  // persists across deploys. It must never be committed.
 }
