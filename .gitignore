@@ -2,3 +2,6 @@
 node_modules/
 .wrangler/
 .dev.vars
+
+# large source image, kept locally only
+profile picture homepage.jpg
