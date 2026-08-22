@@ -41,10 +41,34 @@
           h < 20 ? 'golden hour' :
           h < 23 ? 'actually working now' :
                    'third coffee, bad idea';
-        clock.innerHTML = '<b>' + hhmm + ' lhe</b>' + says;
+        clock.innerHTML = '<b>' + hhmm + ' LHE</b>' + says;
       };
       tick();
       setInterval(tick, 15000);
+    }
+
+    /* ---- live subscriber count ---- */
+    var subs = document.getElementById('subs');
+    if (subs) {
+      var n = subs.querySelector('.num');
+      var fmt = function (v) {
+        v = Number(v);
+        if (v >= 1e6) return (v / 1e6).toFixed(v < 1e7 ? 2 : 1).replace(/\.?0+$/, '') + 'M';
+        if (v >= 1e3) return (v / 1e3).toFixed(v < 1e4 ? 2 : 1).replace(/\.?0+$/, '') + 'K';
+        return String(v);
+      };
+      var pull = function () {
+        fetch('/api/subscribers')
+          .then(function (r) { if (!r.ok) throw 0; return r.json(); })
+          .then(function (d) {
+            if (!d || d.subscribers == null) throw 0;
+            n.textContent = fmt(d.subscribers);
+            subs.setAttribute('data-live', 'true');
+          })
+          .catch(function () { subs.setAttribute('data-live', 'false'); });
+      };
+      pull();
+      setInterval(pull, 60000);
     }
 
     /* ---- photography lightbox ---- */

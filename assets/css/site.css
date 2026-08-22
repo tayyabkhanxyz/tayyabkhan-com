@@ -11,8 +11,10 @@
   --skin:#fafafa;
   --glow:rgba(20,20,20,.30);
   --grain:.055;
+  --redgrain:.34;
   --track:#39393d;
   --mail:#ff3b30;
+  --live:#ff3b30;
   --pop:#c0392b;
   --col:46rem;
   --pad:clamp(1.25rem,5vw,2rem);
@@ -23,14 +25,14 @@
 :root[data-theme="dark"]{
   --bg:#0a0a0a; --raise:#141414; --ink:#e5e5e5; --body:#888888;
   --muted:#777777; --faint:#666666; --line:#222222; --skin:#0a0a0a;
-  --glow:rgba(255,255,255,.40); --grain:.075; --pop:#e04b32; --mail:#ff453a;
+  --glow:rgba(255,255,255,.40); --grain:.075; --redgrain:.30; --pop:#e04b32; --mail:#ff453a; --live:#ff453a;
   color-scheme:dark;
 }
 @media (prefers-color-scheme:dark){
   :root:not([data-theme="light"]){
     --bg:#0a0a0a; --raise:#141414; --ink:#e5e5e5; --body:#888888;
     --muted:#777777; --faint:#666666; --line:#222222; --skin:#0a0a0a;
-    --glow:rgba(255,255,255,.40); --grain:.075; --pop:#e04b32; --mail:#ff453a;
+    --glow:rgba(255,255,255,.40); --grain:.075; --redgrain:.30; --pop:#e04b32; --mail:#ff453a; --live:#ff453a;
     color-scheme:dark;
   }
 }
@@ -57,11 +59,14 @@ a{color:inherit}
 }
 #grain-c{
   position:fixed; top:-50%; left:-50%; width:200%; height:200%;
-  pointer-events:none; z-index:9998; opacity:.5; mix-blend-mode:soft-light;
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='c'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.95' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23c)'/%3E%3C/svg%3E");
+  pointer-events:none; z-index:9998; opacity:var(--redgrain); mix-blend-mode:multiply;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='150'%3E%3Cfilter id='r'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.86  0 0 0 0 0.12  0 0 0 0 0.09  1 0 0 0 -0.35'/%3E%3C/filter%3E%3Crect width='150' height='150' filter='url(%23r)'/%3E%3C/svg%3E");
   animation:grain 1100ms steps(5) infinite reverse;
   will-change:transform;
 }
+:root[data-theme="dark"] #grain-c{mix-blend-mode:screen}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) #grain-c{mix-blend-mode:screen}}
+
 @keyframes grain{
   0%{transform:translate(0,0)} 16%{transform:translate(-3%,-4%)}
   33%{transform:translate(-5%,2%)} 50%{transform:translate(3%,-3%)}
@@ -86,8 +91,8 @@ section{padding-block:clamp(2rem,5.5vw,3.25rem)}
 .mark{display:flex; align-items:center; gap:.55rem; text-decoration:none; color:var(--ink)}
 .mark .wordmark{font-weight:500; letter-spacing:-.4px; font-size:16px}
 .head-right{margin-left:auto; display:flex; align-items:center; gap:1.25rem}
-.clock{font-size:10px; font-weight:400; text-align:right; line-height:1.5; color:var(--faint)}
-.clock b{display:block; font-weight:500; color:var(--muted)}
+.clock{font-size:12px; font-weight:400; text-align:right; line-height:1.45; color:var(--faint)}
+.clock b{display:block; font-size:13px; font-weight:500; color:var(--ink); letter-spacing:.2px}
 .tog{background:none; border:0; padding:0; cursor:pointer; line-height:0; -webkit-tap-highlight-color:transparent}
 .tog .track{
   position:relative; display:block; width:44px; height:24px; border-radius:12px;
@@ -115,7 +120,7 @@ section{padding-block:clamp(2rem,5.5vw,3.25rem)}
 }
 
 /* ---------- hero ---------- */
-.hero{display:grid; grid-template-columns:150px 1fr; gap:clamp(1.5rem,5vw,3rem); align-items:start}
+.hero{display:grid; grid-template-columns:1fr 150px; gap:clamp(1.5rem,5vw,3rem); align-items:start}
 .hero .me img{border-radius:2px}
 .hero .me figcaption{font-size:11px; color:var(--faint); margin-top:.6rem}
 h1{font-size:28px; font-weight:700; color:var(--ink); letter-spacing:-.7px; line-height:1.15; margin:0 0 .9rem}
@@ -149,13 +154,13 @@ h1{font-size:28px; font-weight:700; color:var(--ink); letter-spacing:-.7px; line
 .pull{color:var(--ink); margin:1.6rem 0; padding-left:1rem; border-left:1px solid var(--line); font-size:16px; line-height:1.6}
 
 /* ---------- brands ---------- */
-.brands{display:flex; align-items:center; gap:1.75rem; flex-wrap:wrap}
-.brands img{height:18px; width:auto; opacity:.42; filter:grayscale(1) contrast(1.05);
+.brands{display:flex; align-items:center; gap:2.1rem; flex-wrap:wrap}
+.brands img{height:24px; width:auto; opacity:.42; filter:grayscale(1) contrast(1.05);
   mix-blend-mode:multiply; transition:opacity .25s}
 :root[data-theme="dark"] .brands img{filter:grayscale(1) invert(1); mix-blend-mode:screen}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .brands img{filter:grayscale(1) invert(1); mix-blend-mode:screen}}
 .brands img:hover{opacity:.85}
-.b-anthropic{height:20px!important} .b-notion{height:24px!important} .b-cokestudio{height:42px!important}
+.b-anthropic{height:27px!important} .b-notion{height:32px!important} .b-cokestudio{height:56px!important}
 
 /* ---------- channels ---------- */
 .chan{display:flex; justify-content:space-between; align-items:baseline; gap:1rem;
@@ -184,6 +189,21 @@ h1{font-size:28px; font-weight:700; color:var(--ink); letter-spacing:-.7px; line
 .ch-head:hover .n{text-shadow:0 0 14px var(--glow)}
 .ch-head .rule{flex:1; height:1px; background:var(--line); transform:translateY(-4px)}
 .ch-head .c{font-size:11px; color:var(--faint); white-space:nowrap}
+
+/* live subscriber count */
+#subs{display:flex; align-items:baseline; gap:.55rem; margin:0; font-size:13px; color:var(--faint)}
+#subs .num{font-size:26px; font-weight:700; letter-spacing:-.6px; color:var(--ink); line-height:1}
+#subs .lbl{font-size:12px}
+#subs .pulse{
+  width:7px; height:7px; border-radius:50%; background:var(--live); flex:none;
+  align-self:center; box-shadow:0 0 0 0 var(--live); animation:pulse 1.8s ease-out infinite;
+}
+#subs[data-live="false"] .pulse{animation:none; opacity:.35}
+@keyframes pulse{
+  0%{box-shadow:0 0 0 0 var(--live); opacity:1}
+  70%{box-shadow:0 0 0 7px rgba(255,59,48,0); opacity:.85}
+  100%{box-shadow:0 0 0 0 rgba(255,59,48,0); opacity:1}
+}
 
 .embed{aspect-ratio:16/9; width:100%; border:0; border-radius:2px; background:var(--raise)}
 
