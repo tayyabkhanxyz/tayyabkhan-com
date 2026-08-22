@@ -20,6 +20,7 @@
   --green:#1a9e4b;
   --sun:#f0b90b; --sun-deep:#d19405; --sun-core:#5f4218;
   --pop:#c0392b;
+  --fade:900ms;   /* how long the sun takes to set */
   --col:46rem;
   --pad:clamp(1.25rem,5vw,2rem);
   --sans:Inter,system-ui,-apple-system,sans-serif;
@@ -44,12 +45,35 @@
 }
 
 *,*::before,*::after{box-sizing:border-box}
+
+/* Sunset. The class is only on <html> while the theme is changing, so
+   every colour on the page crosses over together, linearly, and nothing
+   is transitioned at any other time. */
+html.theming,
+html.theming *,
+html.theming *::before,
+html.theming *::after{
+  transition:
+    background-color var(--fade) linear,
+    background-image  var(--fade) linear,
+    color             var(--fade) linear,
+    border-color      var(--fade) linear,
+    outline-color     var(--fade) linear,
+    fill              var(--fade) linear,
+    stroke            var(--fade) linear,
+    box-shadow        var(--fade) linear,
+    text-shadow       var(--fade) linear,
+    opacity           var(--fade) linear,
+    transform         var(--fade) linear !important;
+}
+@media (prefers-reduced-motion:reduce){
+  html.theming,html.theming *,html.theming *::before,html.theming *::after{transition:none!important}
+}
 html{-webkit-text-size-adjust:100%}
 body{
   margin:0; background:var(--bg); color:var(--body);
   font-family:var(--sans); font-size:15px; line-height:1.5;
   letter-spacing:normal; -webkit-font-smoothing:antialiased;
-  transition:background .25s ease,color .25s ease;
 }
 ::selection{background:var(--ink); color:var(--bg)}
 img{max-width:100%; display:block}
