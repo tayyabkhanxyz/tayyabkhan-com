@@ -92,7 +92,10 @@ section{padding-block:clamp(2rem,5.5vw,3.25rem)}
 /* ---------- header ---------- */
 .site-head{display:flex; align-items:center; gap:.7rem; padding-top:1.75rem; padding-bottom:clamp(2.5rem,7vw,4rem)}
 .mark{display:flex; align-items:center; gap:.55rem; text-decoration:none; color:var(--ink)}
-.mark .wordmark{font-weight:500; letter-spacing:-.4px; font-size:16px}
+.mark{line-height:0}
+.logo{height:30px; width:auto; display:block; transition:transform .35s cubic-bezier(.2,.7,.3,1), filter .3s}
+.mark:hover .logo{transform:rotate(-6deg) scale(1.06)}
+@media (max-width:600px){.logo{height:26px}}
 .head-right{margin-left:auto; display:flex; align-items:center; gap:1.25rem}
 .clock{font-size:12px; font-weight:400; text-align:right; line-height:1.45; color:var(--faint)}
 .clock b{display:block; font-size:13px; font-weight:500; color:var(--ink); letter-spacing:.2px}
@@ -160,7 +163,9 @@ h1{font-size:28px; font-weight:700; color:var(--ink); letter-spacing:-.7px; line
 .brands{display:flex; align-items:center; gap:2.1rem; flex-wrap:wrap}
 .brands img{height:24px; width:auto; opacity:.42; filter:grayscale(1) contrast(1.05);
   mix-blend-mode:multiply; transition:opacity .25s}
+:root[data-theme="dark"] .logo{filter:brightness(1.06)}
 :root[data-theme="dark"] .brands img{filter:grayscale(1) invert(1); mix-blend-mode:screen}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .logo{filter:brightness(1.06)}}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .brands img{filter:grayscale(1) invert(1); mix-blend-mode:screen}}
 .brands img:hover{opacity:.85}
 .b-anthropic{height:27px!important} .b-notion{height:32px!important} .b-cokestudio{height:56px!important}
