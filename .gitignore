@@ -5,3 +5,6 @@ node_modules/
 
 # large source image, kept locally only
 profile picture homepage.jpg
+
+# review masters (734MB) — web versions live in assets/video/
+Client review/

@@ -106,6 +106,30 @@
       setInterval(tickAge, 1000);
     }
 
+    /* ---- client reviews: swap the poster for a real player on click ---- */
+    document.querySelectorAll('.player').forEach(function (box) {
+      box.addEventListener('click', function () {
+        if (box.querySelector('video')) return;
+        var v = document.createElement('video');
+        v.src = box.dataset.src;
+        v.controls = true;
+        v.autoplay = true;
+        v.playsInline = true;
+        v.preload = 'metadata';
+        if (box.dataset.vtt) {
+          var t = document.createElement('track');
+          t.kind = 'captions'; t.srclang = 'en'; t.label = 'English';
+          t.src = box.dataset.vtt; t.default = true;
+          v.appendChild(t);
+        }
+        // one at a time -- stop any other review that is already playing
+        document.querySelectorAll('.player video').forEach(function (other) { other.pause(); });
+        box.innerHTML = '';
+        box.appendChild(v);
+        box.style.cursor = 'default';
+      });
+    });
+
     /* ---- photography lightbox ---- */
     var shots = Array.prototype.slice.call(document.querySelectorAll('.shot'));
     if (shots.length) {
