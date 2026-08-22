@@ -177,11 +177,17 @@ h1{font-size:28px; font-weight:700; color:var(--ink); letter-spacing:-.7px; line
 .embed{aspect-ratio:16/9; width:100%; border:0; border-radius:2px; background:var(--raise)}
 
 /* ---------- photography ---------- */
-.gallery{columns:4; column-gap:.5rem}
-@media (max-width:820px){.gallery{columns:3}}
-@media (max-width:600px){.gallery{columns:2}}
+.gallery{
+  columns:4; column-gap:.5rem;
+  /* break out of the 46rem text column so the photos can be bigger,
+     while the intro above keeps the narrow measure */
+  width:min(62rem, calc(100vw - 2 * var(--pad)));
+  position:relative; left:50%; transform:translateX(-50%);
+}
+@media (max-width:1000px){.gallery{columns:3}}
+@media (max-width:700px){.gallery{columns:2}}
 .shot{display:block; margin-bottom:.5rem; break-inside:avoid; cursor:zoom-in}
-.shot img{width:100%; border-radius:2px; transition:opacity .35s}
+.shot img{width:100%; transition:opacity .35s}
 .shot:hover img{opacity:.88}
 #lb{position:fixed; inset:0; z-index:10000; background:rgba(8,8,8,.985); display:none;
   align-items:center; justify-content:center; padding:clamp(1rem,4vw,3rem)}
