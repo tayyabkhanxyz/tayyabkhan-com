@@ -70,8 +70,9 @@
     /* ---- how old he is, to the second ---- */
     var ageEl = document.getElementById('age');
     if (ageEl) {
-      // EDIT: Tayyab's real date of birth. Local time, month is 0-indexed.
-      var BORN = new Date(2006, 0, 1, 0, 0, 0);
+      // 9 August 2006. Local time; month is 0-indexed. Time of day unknown,
+      // so the clock counts from midnight.
+      var BORN = new Date(2006, 7, 9, 0, 0, 0);
 
       var plural = function (n, word) { return n + ' ' + word + (n === 1 ? '' : 's'); };
 
