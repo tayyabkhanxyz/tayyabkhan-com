@@ -177,6 +177,17 @@ h1{font-size:28px; font-weight:700; color:var(--ink); letter-spacing:-.7px; line
 .embed{aspect-ratio:16/9; width:100%; border:0; border-radius:2px; background:var(--raise)}
 
 /* ---------- photography ---------- */
+/* first row: a real grid so the four align top and bottom.
+   all four are 2:3 portraits, so object-fit crops nothing. */
+.gallery-row{
+  display:grid; grid-template-columns:repeat(4,1fr); gap:.5rem; margin-bottom:.5rem;
+  width:min(62rem, calc(100vw - 2 * var(--pad)));
+  position:relative; left:50%; transform:translateX(-50%);
+}
+.gallery-row .shot{margin:0}
+.gallery-row .shot img{width:100%; height:100%; aspect-ratio:2/3; object-fit:cover}
+@media (max-width:1000px){.gallery-row{grid-template-columns:repeat(2,1fr)}}
+
 .gallery{
   columns:4; column-gap:.5rem;
   /* break out of the 46rem text column so the photos can be bigger,
