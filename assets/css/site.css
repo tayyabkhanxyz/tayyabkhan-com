@@ -158,7 +158,7 @@ section{padding-block:clamp(2rem,5.5vw,3.25rem)}
 }
 
 /* ---------- hero ---------- */
-.hero{display:grid; grid-template-columns:1fr 150px; gap:clamp(1.5rem,5vw,3rem); align-items:start}
+.hero{display:grid; grid-template-columns:1fr 230px; gap:clamp(1.5rem,5vw,3rem); align-items:start}
 .hero .me img{border-radius:2px}
 .hero .me figcaption{font-size:11px; color:var(--faint); margin-top:.6rem}
 h1{font-size:28px; font-weight:700; color:var(--ink); letter-spacing:-.7px; line-height:1.15; margin:0 0 .9rem}
@@ -167,7 +167,7 @@ h1{font-size:28px; font-weight:700; color:var(--ink); letter-spacing:-.7px; line
 .bio a:hover{border-bottom-color:var(--muted); text-shadow:0 0 14px var(--glow)}
 @media (max-width:620px){
   .hero{grid-template-columns:1fr; gap:1.75rem}
-  .hero .me{max-width:132px}
+  .hero .me{max-width:200px}
 }
 
 /* ---------- index ---------- */
