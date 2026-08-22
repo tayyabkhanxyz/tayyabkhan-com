@@ -18,6 +18,7 @@
   --mail:#ff3b30;
   --live:#ff3b30;
   --green:#1a9e4b;
+  --sun:#f0b90b; --sun-deep:#d19405; --sun-core:#5f4218;
   --pop:#c0392b;
   --col:46rem;
   --pad:clamp(1.25rem,5vw,2rem);
@@ -94,11 +95,35 @@ section{padding-block:clamp(2rem,5.5vw,3.25rem)}
 .site-head{display:flex; align-items:center; gap:.7rem; padding-top:1.4rem; padding-bottom:clamp(2.5rem,7vw,4rem)}
 .mark{display:flex; align-items:center; gap:.55rem; text-decoration:none; color:var(--ink)}
 .mark{line-height:0}
-.logo{height:56px; width:auto; display:block;
-  transform-origin:50% 100%;   /* pivot at the base of the stem */
-  transition:transform .4s cubic-bezier(.2,.7,.3,1), filter .3s}
-.mark:hover .logo{transform:rotate(-4deg)}
-@media (max-width:600px){.logo{height:46px}}
+.flower{
+  position:relative; display:block; width:42px; height:42px;
+  transition:transform .8s cubic-bezier(.22,.68,.28,1);
+}
+.flower span{
+  position:absolute; inset:0;
+  -webkit-mask-repeat:no-repeat; mask-repeat:no-repeat;
+  -webkit-mask-position:center;  mask-position:center;
+  -webkit-mask-size:contain;     mask-size:contain;
+}
+/* the outlines: take the page's ink colour, so they invert with the theme */
+.flower .line{
+  background:currentColor;
+  -webkit-mask-image:url("../img/sun-line.png"); mask-image:url("../img/sun-line.png");
+}
+/* the colour underneath, revealed from the centre outwards on hover */
+.flower .fill{
+  background:radial-gradient(circle at 50% 50%,
+    var(--sun-core) 0 19%, var(--sun) 22%, var(--sun) 62%, var(--sun-deep) 100%);
+  -webkit-mask-image:url("../img/sun-solid.png"); mask-image:url("../img/sun-solid.png");
+  clip-path:circle(0% at 50% 50%);
+  transition:clip-path .75s cubic-bezier(.22,.68,.28,1);
+}
+.mark:hover .fill,.mark:focus-visible .fill{clip-path:circle(72% at 50% 50%)}
+.mark:hover .flower,.mark:focus-visible .flower{transform:rotate(31deg)}
+@media (max-width:600px){.flower{width:36px; height:36px}}
+@media (prefers-reduced-motion:reduce){
+  .flower,.flower .fill{transition:none}
+}
 .head-right{margin-left:auto; display:flex; align-items:center; gap:1.25rem}
 .clock{font-size:12px; font-weight:400; text-align:right; line-height:1.45; color:var(--faint)}
 .clock .dot{display:inline-block; width:6px; height:6px; border-radius:50%;
