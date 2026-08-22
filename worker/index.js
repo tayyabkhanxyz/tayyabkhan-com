@@ -10,6 +10,11 @@
 import { onRequestPost as contact } from '../functions/api/contact.js';
 import { onRequestGet as subscribers } from '../functions/api/subscribers.js';
 
+// Noor's site lives in its own Worker on a different account. /noor/ proxies
+// it so the address bar stays on tayyabkhan.com. Safe to proxy because every
+// path inside it is relative -- there are no root-absolute references to break.
+const NOOR_ORIGIN = 'https://tiny-river-e0cd.tayyabkhanfilmz.workers.dev';
+
 const SECURITY_HEADERS = {
   'X-Content-Type-Options': 'nosniff',
   'Referrer-Policy': 'strict-origin-when-cross-origin',
@@ -25,6 +30,25 @@ export default {
     if (url.hostname.startsWith('www.')) {
       url.hostname = url.hostname.slice(4);
       return Response.redirect(url.toString(), 301);
+    }
+
+    // /noor -> /noor/ so the relative links inside it resolve correctly
+    if (url.pathname === '/noor') {
+      return Response.redirect(new URL('/noor/', url).toString(), 301);
+    }
+
+    if (url.pathname.startsWith('/noor/')) {
+      const target = new URL(url.pathname.slice('/noor'.length) + url.search, NOOR_ORIGIN);
+      const upstream = await fetch(target, {
+        method: request.method,
+        headers: request.headers,
+        body: request.method === 'GET' || request.method === 'HEAD' ? undefined : request.body,
+        redirect: 'manual',
+      });
+      const out = new Response(upstream.body, upstream);
+      // personal page: reachable if he sends the link, invisible to search
+      out.headers.set('X-Robots-Tag', 'noindex, nofollow');
+      return out;
     }
 
     if (url.pathname === '/api/contact') {
