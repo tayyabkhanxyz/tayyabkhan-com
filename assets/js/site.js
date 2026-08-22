@@ -17,18 +17,8 @@
     if (tog) {
       var paint = function () { tog.setAttribute('aria-pressed', isDark() ? 'true' : 'false'); };
       paint();
-      // read the fade length from CSS so the two never drift apart
-      var fadeMs = parseFloat(getComputedStyle(root).getPropertyValue('--fade')) || 900;
-      var settle;
-
       tog.addEventListener('click', function () {
         var next = isDark() ? 'light' : 'dark';
-
-        // only transition while the theme is actually changing
-        root.classList.add('theming');
-        clearTimeout(settle);
-        settle = setTimeout(function () { root.classList.remove('theming'); }, fadeMs + 80);
-
         root.setAttribute('data-theme', next);
         try { localStorage.setItem('theme', next); } catch (e) {}
         paint();
