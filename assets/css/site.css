@@ -17,6 +17,7 @@
   --track:#39393d;
   --mail:#ff3b30;
   --live:#ff3b30;
+  --green:#1a9e4b;
   --pop:#c0392b;
   --col:46rem;
   --pad:clamp(1.25rem,5vw,2rem);
@@ -27,7 +28,7 @@
 :root[data-theme="dark"]{
   --bg:#0a0a0a; --raise:#141414; --ink:#e5e5e5; --body:#e5e5e5;
   --muted:#9a9a9a; --faint:#666666; --line:#222222; --skin:#0a0a0a;
-  --glow:rgba(255,255,255,.40); --grain:.075; --redgrain:.5; --pop:#e04b32; --mail:#ff453a; --live:#ff453a;
+  --glow:rgba(255,255,255,.40); --grain:.075; --redgrain:.5; --pop:#e04b32; --mail:#ff453a; --live:#ff453a; --green:#30d158;
   --grainc-blend:soft-light; --grainc-img:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='c'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.95' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23c)'/%3E%3C/svg%3E");
   color-scheme:dark;
 }
@@ -35,7 +36,7 @@
   :root:not([data-theme="light"]){
     --bg:#0a0a0a; --raise:#141414; --ink:#e5e5e5; --body:#e5e5e5;
     --muted:#9a9a9a; --faint:#666666; --line:#222222; --skin:#0a0a0a;
-    --glow:rgba(255,255,255,.40); --grain:.075; --redgrain:.5; --pop:#e04b32; --mail:#ff453a; --live:#ff453a;
+    --glow:rgba(255,255,255,.40); --grain:.075; --redgrain:.5; --pop:#e04b32; --mail:#ff453a; --live:#ff453a; --green:#30d158;
     --grainc-blend:soft-light; --grainc-img:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='c'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.95' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23c)'/%3E%3C/svg%3E");
     color-scheme:dark;
   }
@@ -100,6 +101,10 @@ section{padding-block:clamp(2rem,5.5vw,3.25rem)}
 @media (max-width:600px){.logo{height:46px}}
 .head-right{margin-left:auto; display:flex; align-items:center; gap:1.25rem}
 .clock{font-size:12px; font-weight:400; text-align:right; line-height:1.45; color:var(--faint)}
+.clock .dot{display:inline-block; width:6px; height:6px; border-radius:50%;
+  background:var(--green); margin-right:.4rem; vertical-align:middle; position:relative; top:-1px;
+  animation:blink 2.4s ease-in-out infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.18}}
 .clock b{display:block; font-size:13px; font-weight:500; color:var(--ink); letter-spacing:.2px}
 .tog{background:none; border:0; padding:0; cursor:pointer; line-height:0; -webkit-tap-highlight-color:transparent}
 .tog .track{
@@ -200,15 +205,31 @@ h1{font-size:28px; font-weight:700; color:var(--ink); letter-spacing:-.7px; line
 .ch-head .rule{flex:1; height:1px; background:var(--line); transform:translateY(-4px)}
 .ch-head .c{font-size:11px; color:var(--faint); white-space:nowrap}
 
+/* contact button — breathes on its own */
+.cta-wrap{padding-block:clamp(2.5rem,7vw,4rem); display:flex; justify-content:center}
+.cta{
+  display:inline-block; text-decoration:none; border-radius:2px;
+  padding:.85rem 2.2rem; font-size:14px; font-weight:500; letter-spacing:.2px;
+  color:var(--mail); border:1px solid var(--mail); background:transparent;
+  animation:breathe 4.5s ease-in-out infinite;
+  transition:color .25s, background .25s, border-color .25s;
+}
+@keyframes breathe{
+  0%,100%{box-shadow:0 0 0 rgba(255,59,48,0), inset 0 0 0 rgba(255,59,48,0)}
+  50%{box-shadow:0 0 22px rgba(255,59,48,.32), inset 0 0 12px rgba(255,59,48,.10)}
+}
+.cta:hover{background:var(--mail); border-color:var(--mail); color:#fff; animation-play-state:paused}
+
 /* live subscriber count */
-#subs{display:flex; align-items:baseline; gap:.55rem; margin:0; font-size:13px; color:var(--faint)}
-#subs .num{font-size:26px; font-weight:700; letter-spacing:-.6px; color:var(--ink); line-height:1}
+#subs{display:flex; align-items:baseline; gap:.6rem; margin:0; font-size:13px; color:var(--faint)}
+#subs .num{font-family:"VT323",ui-monospace,monospace; font-size:46px; font-weight:400;
+  letter-spacing:.02em; color:var(--ink); line-height:.85; font-variant-numeric:tabular-nums}
 #subs .lbl{font-size:12px}
 #subs .pulse{
   width:7px; height:7px; border-radius:50%; background:var(--live); flex:none;
   align-self:center; box-shadow:0 0 0 0 var(--live); animation:pulse 1.8s ease-out infinite;
 }
-#subs[data-live="false"] .pulse{animation:none; opacity:.35}
+#subs[data-live="false"] .pulse{opacity:.9}
 @keyframes pulse{
   0%{box-shadow:0 0 0 0 var(--live); opacity:1}
   70%{box-shadow:0 0 0 7px rgba(255,59,48,0); opacity:.85}
@@ -267,6 +288,9 @@ h1{font-size:28px; font-weight:700; color:var(--ink); letter-spacing:-.7px; line
 .submit[disabled]{opacity:.4; cursor:wait}
 .form-msg{font-size:13px; color:var(--muted); min-height:1.2em; margin:0}
 .form-msg a{color:var(--ink)}
+.or{margin:.35rem 0 0; font-size:13px; color:var(--faint)}
+.or a{color:var(--muted); text-decoration:none; border-bottom:1px solid var(--line)}
+.or a:hover{color:var(--mail); border-bottom-color:var(--mail)}
 
 /* ---------- footer ---------- */
 .site-foot{margin-top:clamp(3rem,9vw,5rem); border-top:1px solid var(--line)}
