@@ -131,23 +131,24 @@ section{padding-block:clamp(2rem,5.5vw,3.25rem)}
   animation:blink 2.4s ease-in-out infinite}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.18}}
 .clock b{display:block; font-size:13px; font-weight:500; color:var(--ink); letter-spacing:.2px}
-.tog{background:none; border:0; padding:0; cursor:pointer; line-height:0; -webkit-tap-highlight-color:transparent}
-.tog .track{
-  position:relative; display:block; width:44px; height:24px; border-radius:12px;
-  background:var(--track); transition:background .3s;
+.tog{
+  background:none; border:0; padding:0; cursor:pointer; line-height:0;
+  position:relative; width:20px; height:20px; color:var(--muted);
+  -webkit-tap-highlight-color:transparent;
 }
-.tog .ic{position:absolute; top:7px; width:10px; height:10px; fill:none; stroke:#fff;
-  stroke-width:1.6; stroke-linecap:round; stroke-linejoin:round; transition:opacity .3s}
-.tog .sun{left:7px}
-.tog .moon{right:7px; fill:#fff; stroke:none}
-.tog .knob{
-  position:absolute; left:2px; top:2px; width:20px; height:20px; border-radius:50%;
-  background:#fff; box-shadow:0 1px 2px rgba(0,0,0,.2);
-  transition:transform .3s cubic-bezier(.4,0,.2,1);
+.tog:hover{color:var(--ink)}
+.tog .ic{
+  position:absolute; inset:0; width:20px; height:20px;
+  fill:none; stroke:currentColor; stroke-width:1.7; stroke-linecap:round; stroke-linejoin:round;
+  transition:opacity .3s ease, transform .45s cubic-bezier(.2,.7,.3,1);
 }
-.tog[aria-pressed="true"] .knob{transform:translateX(20px)}
-.tog[aria-pressed="true"] .sun{opacity:0}
-.tog[aria-pressed="false"] .moon{opacity:0}
+.tog .moon{fill:currentColor; stroke:none}
+/* the icon shown is the mode you are in: sun = light, moon = dark */
+.tog[aria-pressed="false"] .moon{opacity:0; transform:rotate(-70deg) scale(.6)}
+.tog[aria-pressed="true"]  .sun {opacity:0; transform:rotate(70deg)  scale(.6)}
+.tog[aria-pressed="false"] .sun {opacity:1; transform:none}
+.tog[aria-pressed="true"]  .moon{opacity:1; transform:none}
+
 .site-nav{display:flex; gap:1.1rem; align-items:center; flex-wrap:wrap}
 .site-nav a{font-size:13px; text-decoration:none; color:var(--muted)}
 .site-nav a[aria-current="page"]{color:var(--ink)}
@@ -189,6 +190,7 @@ h1{font-size:28px; font-weight:700; color:var(--ink); letter-spacing:-.7px; line
 .prose a:hover{border-bottom-color:var(--muted); text-shadow:0 0 14px var(--glow)}
 .prose h2{font-size:16px; font-weight:700; color:var(--ink); letter-spacing:-.4px; margin:2.1rem 0 .75rem}
 .prose h2:first-child{margin-top:0}
+#age{font-variant-numeric:tabular-nums; white-space:nowrap}
 .pull{color:var(--ink); margin:1.6rem 0; padding-left:1rem; border-left:1px solid var(--line); font-size:16px; line-height:1.6}
 
 /* ---------- brands ---------- */
@@ -235,7 +237,7 @@ h1{font-size:28px; font-weight:700; color:var(--ink); letter-spacing:-.7px; line
 .cta{
   display:inline-block; text-decoration:none; border-radius:2px;
   padding:.85rem 2.2rem; font-size:14px; font-weight:500; letter-spacing:.2px;
-  color:var(--mail); border:1px solid var(--mail); background:transparent;
+  color:#fff; border:1px solid var(--mail); background:var(--mail);
   animation:breathe 4.5s ease-in-out infinite;
   transition:color .25s, background .25s, border-color .25s;
 }
@@ -243,7 +245,7 @@ h1{font-size:28px; font-weight:700; color:var(--ink); letter-spacing:-.7px; line
   0%,100%{box-shadow:0 0 0 rgba(255,59,48,0), inset 0 0 0 rgba(255,59,48,0)}
   50%{box-shadow:0 0 22px rgba(255,59,48,.32), inset 0 0 12px rgba(255,59,48,.10)}
 }
-.cta:hover{background:var(--mail); border-color:var(--mail); color:#fff; animation-play-state:paused}
+.cta:hover{background:transparent; color:var(--mail); animation-play-state:paused}
 
 /* live subscriber count */
 #subs{display:flex; align-items:baseline; gap:.6rem; margin:0; font-size:13px; color:var(--faint)}

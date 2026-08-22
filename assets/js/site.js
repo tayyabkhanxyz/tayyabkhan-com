@@ -67,6 +67,44 @@
       setInterval(pull, 60000);
     }
 
+    /* ---- how old he is, to the second ---- */
+    var ageEl = document.getElementById('age');
+    if (ageEl) {
+      // EDIT: Tayyab's real date of birth. Local time, month is 0-indexed.
+      var BORN = new Date(2006, 0, 1, 0, 0, 0);
+
+      var plural = function (n, word) { return n + ' ' + word + (n === 1 ? '' : 's'); };
+
+      var tickAge = function () {
+        var now = new Date();
+
+        // walk the calendar so months and days are real, not averaged
+        var y = now.getFullYear() - BORN.getFullYear();
+        var mo = now.getMonth() - BORN.getMonth();
+        var d = now.getDate() - BORN.getDate();
+        var h = now.getHours() - BORN.getHours();
+        var mi = now.getMinutes() - BORN.getMinutes();
+        var sec = now.getSeconds() - BORN.getSeconds();
+
+        if (sec < 0) { sec += 60; mi--; }
+        if (mi < 0) { mi += 60; h--; }
+        if (h < 0) { h += 24; d--; }
+        if (d < 0) {
+          // borrow the length of the month that just ended
+          var prev = new Date(now.getFullYear(), now.getMonth(), 0).getDate();
+          d += prev; mo--;
+        }
+        if (mo < 0) { mo += 12; y--; }
+
+        ageEl.textContent =
+          plural(y, 'year') + ', ' + plural(mo, 'month') + ', ' + plural(d, 'day') + ', ' +
+          plural(h, 'hour') + ', ' + plural(mi, 'minute') + ' and ' + plural(sec, 'second') + ' old';
+      };
+
+      tickAge();
+      setInterval(tickAge, 1000);
+    }
+
     /* ---- photography lightbox ---- */
     var shots = Array.prototype.slice.call(document.querySelectorAll('.shot'));
     if (shots.length) {
