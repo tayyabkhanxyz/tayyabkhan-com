@@ -3,29 +3,45 @@
  *
  * Cloudflare deployed this project as a Worker with static assets rather than
  * a Pages project, so the Pages `functions/` convention never gets wired up.
- * This routes the two API paths to those same handlers and hands everything
- * else to the static asset server, which is what was already serving the site.
+ * This routes the two API paths to those same handlers, sends www to the bare
+ * domain, and hands everything else to the static asset server.
  */
 
 import { onRequestPost as contact } from '../functions/api/contact.js';
 import { onRequestGet as subscribers } from '../functions/api/subscribers.js';
 
+const SECURITY_HEADERS = {
+  'X-Content-Type-Options': 'nosniff',
+  'Referrer-Policy': 'strict-origin-when-cross-origin',
+  'X-Frame-Options': 'SAMEORIGIN',
+  'Permissions-Policy': 'geolocation=(), microphone=(), camera=()',
+};
+
 export default {
   async fetch(request, env) {
-    const { pathname } = new URL(request.url);
+    const url = new URL(request.url);
 
-    if (pathname === '/api/contact') {
+    // one canonical host: www -> apex, permanently
+    if (url.hostname.startsWith('www.')) {
+      url.hostname = url.hostname.slice(4);
+      return Response.redirect(url.toString(), 301);
+    }
+
+    if (url.pathname === '/api/contact') {
       if (request.method !== 'POST') return methodNotAllowed('POST');
       return contact({ request, env });
     }
 
-    if (pathname === '/api/subscribers') {
+    if (url.pathname === '/api/subscribers') {
       if (request.method !== 'GET') return methodNotAllowed('GET');
       return subscribers({ request, env });
     }
 
-    // everything else: the site itself
-    return env.ASSETS.fetch(request);
+    // the site itself, with a few headers the static server does not set
+    const res = await env.ASSETS.fetch(request);
+    const out = new Response(res.body, res);
+    for (const [k, v] of Object.entries(SECURITY_HEADERS)) out.headers.set(k, v);
+    return out;
   },
 };
 
