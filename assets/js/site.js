@@ -125,7 +125,9 @@
       }).join('');
     };
 
-    var clock = function (n) {
+    // renamed from `clock`: it shared a function scope with the header
+    // clock element above, and overwrote it -- which froze the clock.
+    var fmtTime = function (n) {
       if (!isFinite(n)) return '0:00';
       var m = Math.floor(n / 60), s = Math.floor(n % 60);
       return m + ':' + String(s).padStart(2, '0');
@@ -203,7 +205,7 @@
           var paint = function () {
             if (v.duration) {
               fill.style.width = (v.currentTime / v.duration) * 100 + '%';
-              time.textContent = clock(v.currentTime);
+              time.textContent = fmtTime(v.currentTime);
             }
             if (live && cues.length) {
               var at = v.currentTime + LEAD;
