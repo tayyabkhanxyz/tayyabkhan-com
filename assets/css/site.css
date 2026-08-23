@@ -288,8 +288,11 @@ h1{font-size:28px; font-weight:700; color:var(--ink); letter-spacing:-.7px; line
 .rev .live{color:var(--muted); opacity:0}
 .rev.playing blockquote{opacity:0}
 .rev.playing .live{opacity:1; color:var(--ink)}
+/* words arrive as they are spoken: unsaid words sit back, said words step up */
+.rev .live w{display:inline; opacity:.28; transition:opacity .2s ease, color .2s ease}
+.rev .live w.said{opacity:1}
 /* the concrete claims -- numbers -- carry the weight, so they get the accent */
-.rev .live b{font-weight:500; color:var(--mail); font-size:1.06em}
+.rev .live w.num.said{color:var(--mail); font-weight:500}
 @media (max-width:760px){.says{min-height:calc(15px * 1.5 * 4)}}
 .rev blockquote::before{content:"\201C"}
 .rev blockquote::after{content:"\201D"}

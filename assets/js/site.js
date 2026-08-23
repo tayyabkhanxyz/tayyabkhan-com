@@ -115,21 +115,15 @@
       return t.replace(/[&<>]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]; });
     };
 
-    var parseVtt = function (text) {
-      var cues = [];
-      text.replace(/\r/g, '').split(/\n\n+/).forEach(function (block) {
-        var lines = block.split('\n').filter(Boolean);
-        var i = lines.findIndex(function (l) { return l.indexOf('-->') > -1; });
-        if (i < 0) return;
-        var t = lines[i].split('-->');
-        var secs = function (v) {
-          var p = v.trim().split(':').map(parseFloat);
-          return p.length === 3 ? p[0] * 3600 + p[1] * 60 + p[2] : p[0] * 60 + p[1];
-        };
-        var body = lines.slice(i + 1).join(' ').trim();
-        if (body) cues.push({ a: secs(t[0]), b: secs(t[1]), text: body });
-      });
-      return cues;
+    // one line of transcript, every word wrapped so it can light up on cue.
+    // punctuation arrives as its own token, so it must not get a leading space.
+    var buildLine = function (line) {
+      return line.w.map(function (word, i) {
+        var w = word.w;
+        var lead = i === 0 || /^[,.!?;:%)\]']/.test(w) ? '' : ' ';
+        var num = /\d/.test(w) ? ' num' : '';
+        return lead + '<w class="' + num.trim() + '" data-t="' + word.t + '">' + esc(w) + '</w>';
+      }).join('');
     };
 
     var clock = function (n) {
@@ -195,9 +189,9 @@
           });
 
           var cues = [];
-          if (box.dataset.vtt) {
-            fetch(box.dataset.vtt).then(function (r) { return r.ok ? r.text() : ''; })
-              .then(function (t) { cues = parseVtt(t); }).catch(function () {});
+          if (box.dataset.words) {
+            fetch(box.dataset.words).then(function (r) { return r.ok ? r.json() : []; })
+              .then(function (d) { cues = d || []; }).catch(function () {});
           }
 
           var shown = -1;
@@ -208,12 +202,16 @@
             }
             if (!live || !cues.length) return;
             var i = cues.findIndex(function (c) { return v.currentTime >= c.a && v.currentTime < c.b; });
+            if (i < 0 && shown >= 0 && v.currentTime > cues[shown].b) i = shown; // hold the last line
             if (i !== shown) {
               shown = i;
-              // numbers are the concrete claims, so let them carry the accent
-              live.innerHTML = i < 0 ? '' :
-                esc(cues[i].text).replace(/\d[\d,]*/g, function (m) { return '<b>' + m + '</b>'; });
+              live.innerHTML = i < 0 ? '' : buildLine(cues[i]);
             }
+            if (i < 0) return;
+            // light each word at the moment it is said
+            live.querySelectorAll('w').forEach(function (el) {
+              el.classList.toggle('said', v.currentTime >= parseFloat(el.dataset.t));
+            });
           });
 
           v.play();
