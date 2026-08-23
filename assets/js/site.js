@@ -116,13 +116,12 @@
     };
 
     // one line of transcript, every word wrapped so it can light up on cue.
-    // punctuation arrives as its own token, so it must not get a leading space.
+    // whole words arrive from the data now, punctuation included.
     var buildLine = function (line) {
       return line.w.map(function (word, i) {
         var w = word.w;
-        var lead = i === 0 || /^[,.!?;:%)\]']/.test(w) ? '' : ' ';
         var num = /\d/.test(w) ? ' num' : '';
-        return lead + '<w class="' + num.trim() + '" data-t="' + word.t + '">' + esc(w) + '</w>';
+        return (i ? ' ' : '') + '<w class="' + num.trim() + '" data-t="' + word.t + '">' + esc(w) + '</w>';
       }).join('');
     };
 
