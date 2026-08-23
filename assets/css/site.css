@@ -276,12 +276,21 @@ h1{font-size:28px; font-weight:700; color:var(--ink); letter-spacing:-.7px; line
 .reviews{display:grid; grid-template-columns:repeat(3,1fr); gap:clamp(1rem,2.5vw,1.6rem)}
 @media (max-width:760px){.reviews{grid-template-columns:1fr; max-width:22rem}}
 .rev{margin:0}
-.rev blockquote{
-  margin:0 0 .9rem; font-size:15px; line-height:1.5; color:var(--ink); letter-spacing:-.2px;
-  /* reserve three lines so the videos stay in a row whatever the quotes say */
-  min-height:calc(15px * 1.5 * 3);
+/* the quote and the live transcript share one box, so nothing shifts when
+   a video starts: the quote fades out, the spoken line fades in. */
+.says{position:relative; min-height:calc(15px * 1.5 * 3); margin-bottom:.9rem}
+.rev blockquote,.rev .live{
+  position:absolute; inset:0; margin:0;
+  font-size:15px; line-height:1.5; letter-spacing:-.2px;
+  transition:opacity .35s ease;
 }
-@media (max-width:760px){.rev blockquote{min-height:0}}
+.rev blockquote{color:var(--ink); opacity:1}
+.rev .live{color:var(--muted); opacity:0}
+.rev.playing blockquote{opacity:0}
+.rev.playing .live{opacity:1; color:var(--ink)}
+/* the concrete claims -- numbers -- carry the weight, so they get the accent */
+.rev .live b{font-weight:500; color:var(--mail); font-size:1.06em}
+@media (max-width:760px){.says{min-height:calc(15px * 1.5 * 4)}}
 .rev blockquote::before{content:"\201C"}
 .rev blockquote::after{content:"\201D"}
 .player{
@@ -306,6 +315,24 @@ h1{font-size:28px; font-weight:700; color:var(--ink); letter-spacing:-.7px; line
 }
 .rev figcaption span{font-size:11px; color:var(--faint)}
 .player video{background:#000}
+
+/* our own controls: a hairline and one button. no fullscreen, no PiP. */
+.player video::-webkit-media-controls{display:none !important}
+.vctl{
+  position:absolute; left:0; right:0; bottom:0; z-index:3;
+  display:flex; align-items:center; gap:.6rem; padding:.6rem .7rem;
+  background:linear-gradient(to top, rgba(0,0,0,.55), rgba(0,0,0,0));
+  opacity:0; transition:opacity .25s;
+}
+.player:hover .vctl,.player.paused .vctl{opacity:1}
+.pp{
+  width:26px; height:26px; flex:none; border:0; padding:0; cursor:pointer;
+  background:none; display:grid; place-items:center;
+}
+.pp svg{width:15px; height:15px; fill:#fff}
+.bar{position:relative; flex:1; height:2px; background:rgba(255,255,255,.28); cursor:pointer}
+.bar i{position:absolute; inset:0 auto 0 0; width:0; background:var(--mail); display:block}
+.vtime{font-size:10px; color:rgba(255,255,255,.75); font-variant-numeric:tabular-nums; flex:none}
 
 /* ---------- photography ---------- */
 /* first row: a real grid so the four align top and bottom.

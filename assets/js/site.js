@@ -106,27 +106,121 @@
       setInterval(tickAge, 1000);
     }
 
-    /* ---- client reviews: swap the poster for a real player on click ---- */
+    /* ---- client reviews ----
+       Native controls give Safari's picture-in-picture and fullscreen buttons,
+       and fullscreen letterboxes a 9:16 clip badly. So the player is built
+       here instead, and the captions are parsed and rendered into the quote
+       slot rather than burned over the speaker's face. */
+    var esc = function (t) {
+      return t.replace(/[&<>]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]; });
+    };
+
+    var parseVtt = function (text) {
+      var cues = [];
+      text.replace(/\r/g, '').split(/\n\n+/).forEach(function (block) {
+        var lines = block.split('\n').filter(Boolean);
+        var i = lines.findIndex(function (l) { return l.indexOf('-->') > -1; });
+        if (i < 0) return;
+        var t = lines[i].split('-->');
+        var secs = function (v) {
+          var p = v.trim().split(':').map(parseFloat);
+          return p.length === 3 ? p[0] * 3600 + p[1] * 60 + p[2] : p[0] * 60 + p[1];
+        };
+        var body = lines.slice(i + 1).join(' ').trim();
+        if (body) cues.push({ a: secs(t[0]), b: secs(t[1]), text: body });
+      });
+      return cues;
+    };
+
+    var clock = function (n) {
+      if (!isFinite(n)) return '0:00';
+      var m = Math.floor(n / 60), s = Math.floor(n % 60);
+      return m + ':' + String(s).padStart(2, '0');
+    };
+
+    var PLAY = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"/></svg>';
+    var PAUSE = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg>';
+
     document.querySelectorAll('.player').forEach(function (box) {
-      box.addEventListener('click', function () {
-        if (box.querySelector('video')) return;
-        var v = document.createElement('video');
-        v.src = box.dataset.src;
-        v.controls = true;
-        v.autoplay = true;
-        v.playsInline = true;
-        v.preload = 'metadata';
-        if (box.dataset.vtt) {
-          var t = document.createElement('track');
-          t.kind = 'captions'; t.srclang = 'en'; t.label = 'English';
-          t.src = box.dataset.vtt; t.default = true;
-          v.appendChild(t);
+      var card = box.closest('.rev');
+      var live = card && card.querySelector('.live');
+
+      box.addEventListener('click', function (e) {
+        var v = box.querySelector('video');
+
+        if (!v) {
+          v = document.createElement('video');
+          v.src = box.dataset.src;
+          v.playsInline = true;
+          v.preload = 'metadata';
+          v.disablePictureInPicture = true;
+          v.setAttribute('controlslist', 'nodownload nofullscreen noremoteplayback');
+
+          // stop anything else that is already running
+          document.querySelectorAll('.player video').forEach(function (o) { o.pause(); });
+          document.querySelectorAll('.rev').forEach(function (r) { r.classList.remove('playing'); });
+
+          box.innerHTML = '';
+          box.appendChild(v);
+
+          var ctl = document.createElement('div');
+          ctl.className = 'vctl';
+          ctl.innerHTML = '<button class="pp" type="button" aria-label="Pause">' + PAUSE +
+                          '</button><div class="bar"><i></i></div><span class="vtime">0:00</span>';
+          box.appendChild(ctl);
+
+          var fill = ctl.querySelector('.bar i');
+          var bar = ctl.querySelector('.bar');
+          var pp = ctl.querySelector('.pp');
+          var time = ctl.querySelector('.vtime');
+
+          ctl.addEventListener('click', function (ev) { ev.stopPropagation(); });
+          pp.addEventListener('click', function () { v.paused ? v.play() : v.pause(); });
+          bar.addEventListener('click', function (ev) {
+            var r = bar.getBoundingClientRect();
+            if (v.duration) v.currentTime = ((ev.clientX - r.left) / r.width) * v.duration;
+          });
+
+          v.addEventListener('play', function () {
+            pp.innerHTML = PAUSE; pp.setAttribute('aria-label', 'Pause');
+            box.classList.remove('paused'); if (card) card.classList.add('playing');
+          });
+          v.addEventListener('pause', function () {
+            pp.innerHTML = PLAY; pp.setAttribute('aria-label', 'Play');
+            box.classList.add('paused');
+          });
+          v.addEventListener('ended', function () {
+            if (card) card.classList.remove('playing');
+            if (live) live.innerHTML = '';
+          });
+
+          var cues = [];
+          if (box.dataset.vtt) {
+            fetch(box.dataset.vtt).then(function (r) { return r.ok ? r.text() : ''; })
+              .then(function (t) { cues = parseVtt(t); }).catch(function () {});
+          }
+
+          var shown = -1;
+          v.addEventListener('timeupdate', function () {
+            if (v.duration) {
+              fill.style.width = (v.currentTime / v.duration) * 100 + '%';
+              time.textContent = clock(v.currentTime);
+            }
+            if (!live || !cues.length) return;
+            var i = cues.findIndex(function (c) { return v.currentTime >= c.a && v.currentTime < c.b; });
+            if (i !== shown) {
+              shown = i;
+              // numbers are the concrete claims, so let them carry the accent
+              live.innerHTML = i < 0 ? '' :
+                esc(cues[i].text).replace(/\d[\d,]*/g, function (m) { return '<b>' + m + '</b>'; });
+            }
+          });
+
+          v.play();
+          return;
         }
-        // one at a time -- stop any other review that is already playing
-        document.querySelectorAll('.player video').forEach(function (other) { other.pause(); });
-        box.innerHTML = '';
-        box.appendChild(v);
-        box.style.cursor = 'default';
+
+        v.paused ? v.play() : v.pause();
       });
     });
 
