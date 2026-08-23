@@ -183,6 +183,7 @@
             box.classList.add('paused');
           });
           v.addEventListener('ended', function () {
+            stopLoop();
             if (card) card.classList.remove('playing');
             if (live) live.innerHTML = '';
           });
@@ -194,24 +195,51 @@
           }
 
           var shown = -1;
-          v.addEventListener('timeupdate', function () {
+          var raf = null;
+          // timeupdate only fires about 4x a second, so a word could land up to
+          // ~260ms late. Drive it from the frame loop instead.
+          var LEAD = 0.05;   // seconds of head start, covers render + paint
+
+          var paint = function () {
             if (v.duration) {
               fill.style.width = (v.currentTime / v.duration) * 100 + '%';
               time.textContent = clock(v.currentTime);
             }
-            if (!live || !cues.length) return;
-            var i = cues.findIndex(function (c) { return v.currentTime >= c.a && v.currentTime < c.b; });
-            if (i < 0 && shown >= 0 && v.currentTime > cues[shown].b) i = shown; // hold the last line
-            if (i !== shown) {
-              shown = i;
-              live.innerHTML = i < 0 ? '' : buildLine(cues[i]);
+            if (live && cues.length) {
+              var at = v.currentTime + LEAD;
+              var i = cues.findIndex(function (c) { return at >= c.a && at < c.b; });
+              if (i < 0 && shown >= 0 && at > cues[shown].b) i = shown;   // hold the last line
+              if (i !== shown) {
+                shown = i;
+                live.innerHTML = i < 0 ? '' : buildLine(cues[i]);
+              }
+              if (i >= 0) {
+                live.querySelectorAll('w').forEach(function (el) {
+                  var said = at >= parseFloat(el.dataset.t);
+                  if (said !== el.classList.contains('said')) el.classList.toggle('said', said);
+                });
+              }
             }
-            if (i < 0) return;
-            // light each word at the moment it is said
-            live.querySelectorAll('w').forEach(function (el) {
-              el.classList.toggle('said', v.currentTime >= parseFloat(el.dataset.t));
-            });
-          });
+            if (!v.paused && !v.ended) raf = requestAnimationFrame(paint);
+            else { clearInterval(tick); tick = null; }
+          };
+
+          // rAF is smooth but stops dead whenever the document is hidden, and a
+          // frozen caption is worse than a late one. A timer runs alongside it
+          // as a floor; paint() is idempotent so running twice costs nothing.
+          var tick = null;
+          var startLoop = function () {
+            cancelAnimationFrame(raf); raf = requestAnimationFrame(paint);
+            clearInterval(tick); tick = setInterval(paint, 50);
+          };
+          var stopLoop = function () {
+            cancelAnimationFrame(raf); clearInterval(tick); tick = null; paint();
+          };
+
+          v.addEventListener('play', startLoop);
+          v.addEventListener('pause', stopLoop);
+          v.addEventListener('seeked', paint);
+          v.addEventListener('timeupdate', function () { if (v.paused) paint(); });
 
           v.play();
           return;

@@ -300,7 +300,7 @@ h1{font-size:28px; font-weight:700; color:var(--ink); letter-spacing:-.7px; line
 .rev.playing blockquote{opacity:0}
 .rev.playing .live{opacity:1; color:var(--ink)}
 /* words arrive as they are spoken: unsaid words sit back, said words step up */
-.rev .live w{display:inline; opacity:.28; transition:opacity .2s ease, color .2s ease}
+.rev .live w{display:inline; opacity:.28; transition:opacity .09s linear, color .09s linear}
 .rev .live w.said{opacity:1}
 /* the concrete claims -- numbers -- carry the weight, so they get the accent */
 .rev .live w.num.said{color:var(--mail); font-weight:500}
