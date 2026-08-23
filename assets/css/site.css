@@ -18,7 +18,7 @@
   --mail:#ff3b30;
   --live:#ff3b30;
   --green:#1a9e4b;
-  --sun:#f0b90b; --sun-deep:#d19405; --sun-core:#5f4218;
+  --sun:#f0b90b; --sun-deep:#d19405; --sun-core:#5f4218; --sun-ink:#1a1a1a;
   --pop:#c0392b;
   --col:46rem;
   --pad:clamp(1.25rem,5vw,2rem);
@@ -124,7 +124,18 @@ section{padding-block:clamp(2rem,5.5vw,3.25rem)}
   clip-path:circle(0% at 50% 50%);
   transition:clip-path .75s cubic-bezier(.22,.68,.28,1);
 }
-.mark:hover .fill,.mark:focus-visible .fill{clip-path:circle(72% at 50% 50%)}
+/* The outline uses currentColor, so in dark mode it turns near-white --
+   which looks wrong sitting on top of yellow petals. This second outline is
+   the illustration's own ink, revealed by the same expanding circle as the
+   fill, so the drawn look matches light mode exactly wherever the colour has
+   reached. Outside the circle the theme-coloured outline still shows. */
+.flower .line.inked{
+  background:var(--sun-ink);
+  clip-path:circle(0% at 50% 50%);
+  transition:clip-path .75s cubic-bezier(.22,.68,.28,1);
+}
+.mark:hover .fill,.mark:focus-visible .fill,
+.mark:hover .line.inked,.mark:focus-visible .line.inked{clip-path:circle(72% at 50% 50%)}
 .mark:hover .flower,.mark:focus-visible .flower{transform:rotate(31deg)}
 @media (max-width:600px){.flower{width:36px; height:36px}}
 @media (prefers-reduced-motion:reduce){
