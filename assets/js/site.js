@@ -308,3 +308,28 @@
     console.log('%cbuilt by hand in lahore · tayyabkhanwork@gmail.com', 'font:12px ui-monospace,monospace');
   } catch (e) {}
 })();
+
+/* ---- the /about square ----
+   it is decorative and silent, so it autoplays. but a looping face is
+   exactly the kind of motion the reduced-motion setting exists for --
+   for those visitors it holds on the poster frame and reads as a photo,
+   which is what it was meant to look like anyway. */
+(function () {
+  document.addEventListener('DOMContentLoaded', function () {
+    var v = document.querySelector('.me-vid');
+    if (!v) return;
+    var calm = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)');
+    if (calm && calm.matches) { v.removeAttribute('autoplay'); v.pause(); return; }
+    // autoplay is refused while the document is hidden -- so a visitor who
+    // opens the link in a background tab would otherwise find a frozen frame
+    // waiting for them. retry whenever the page can actually be seen.
+    var nudge = function () {
+      if (!v.paused || document.hidden) return;
+      var t = v.play();
+      if (t && t.catch) t.catch(function () {});
+    };
+    v.addEventListener('canplay', nudge);
+    document.addEventListener('visibilitychange', nudge);
+    window.addEventListener('pageshow', nudge);
+  });
+})();

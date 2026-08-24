@@ -434,3 +434,15 @@ h1{font-size:28px; font-weight:700; color:var(--ink); letter-spacing:-.7px; line
 figure{margin:0}
 figcaption{font-size:11px; color:var(--faint); margin-top:.5rem}
 @media (prefers-reduced-motion:reduce){*{animation:none!important}}
+
+/* ---------- the square on /about ---------- */
+/* a video that should read as a photograph: no chrome, no caption, no
+   hover state. it floats so the opening lines sit beside it and the rest
+   of the page reclaims the full measure underneath. */
+.me-vid{
+  float:right; width:230px; height:230px; object-fit:cover;
+  margin:.35rem 0 1.2rem 2rem; background:var(--raise);
+}
+@media (max-width:600px){
+  .me-vid{float:none; width:100%; height:auto; aspect-ratio:1/1; margin:0 0 1.6rem}
+}
