@@ -6,10 +6,12 @@ python3 - <<'PY'
 import glob, re, hashlib
 css = hashlib.md5(open('assets/css/site.css','rb').read()).hexdigest()[:8]
 js  = hashlib.md5(open('assets/js/site.js','rb').read()).hexdigest()[:8]
+fab = hashlib.md5(open('assets/js/fable.js','rb').read()).hexdigest()[:8]
 for f in ['index.html', '404.html'] + sorted(glob.glob('*/index.html')):
     s = open(f).read()
     s = re.sub(r'href="/assets/css/site\.css(\?v=[a-f0-9]+)?"', f'href="/assets/css/site.css?v={css}"', s)
     s = re.sub(r'src="/assets/js/site\.js(\?v=[a-f0-9]+)?"',   f'src="/assets/js/site.js?v={js}"', s)
+    s = re.sub(r'src="/assets/js/fable\.js(\?v=[a-f0-9]+)?"',  f'src="/assets/js/fable.js?v={fab}"', s)
     open(f,'w').write(s)
-print('stamped css', css, 'js', js)
+print('stamped css', css, 'js', js, 'fable', fab)
 PY
