@@ -97,9 +97,12 @@
         }
         if (mo < 0) { mo += 12; y--; }
 
+        // a camcorder timestamp rather than a sentence: it sits under the
+        // square on /about, where a spelled-out age wrapped to five lines.
+        var pad2 = function (n) { return String(n).padStart(2, '0'); };
         ageEl.textContent =
-          plural(y, 'year') + ', ' + plural(mo, 'month') + ', ' + plural(d, 'day') + ', ' +
-          plural(h, 'hour') + ', ' + plural(mi, 'minute') + ' and ' + plural(sec, 'second') + ' old';
+          y + 'y ' + pad2(mo) + 'm ' + pad2(d) + 'd  ' +
+          pad2(h) + ':' + pad2(mi) + ':' + pad2(sec);
       };
 
       tickAge();

@@ -439,12 +439,23 @@ figcaption{font-size:11px; color:var(--faint); margin-top:.5rem}
 /* a video that should read as a photograph: no chrome, no caption, no
    hover state. it floats so the opening lines sit beside it and the rest
    of the page reclaims the full measure underneath. */
+/* the square and the age counter travel together, floated as one block so
+   the opening lines sit beside them and the rest reclaims the full measure. */
+.me-block{float:right; width:230px; margin:.35rem 0 1.2rem 2rem}
 .me-vid{
-  float:right; width:230px; height:230px; object-fit:cover;
-  margin:.35rem 0 1.2rem 2rem; background:var(--raise);
+  display:block; width:230px; height:230px; object-fit:cover;
+  background:var(--raise);
+}
+/* a VHS-ish readout: VT323 is a CRT terminal face, and it is the only place
+   on the site that is not Inter. grey, never white -- it is a detail, not a line. */
+.age-live{
+  margin:.45rem 0 0; font-family:'VT323',ui-monospace,monospace;
+  font-size:18px; line-height:1; letter-spacing:.6px;
+  color:var(--faint); font-variant-numeric:tabular-nums;
 }
 @media (max-width:600px){
-  .me-vid{float:none; width:100%; height:auto; aspect-ratio:1/1; margin:0 0 1.6rem}
+  .me-block{float:none; width:100%; margin:0 0 1.6rem}
+  .me-vid{width:100%; height:auto; aspect-ratio:1/1}
 }
 
 /* ---------- the fable on the footer rule (homepage) ---------- */
