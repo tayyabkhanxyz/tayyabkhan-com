@@ -223,8 +223,7 @@ h1{font-size:28px; font-weight:700; color:var(--ink); letter-spacing:-.7px; line
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .logo{filter:brightness(1.06)}}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .brands img{filter:grayscale(1) invert(1); mix-blend-mode:screen}}
 .brands img:hover{opacity:.85}
-.b-anthropic{height:27px!important} .b-notion{height:32px!important} .b-cokestudio{height:76px!important}
-.b-lenovo{height:17px!important}
+.b-anthropic{height:27px!important} .b-openai{height:28px!important} .b-notion{height:32px!important} .b-cokestudio{height:76px!important}
 
 /* ---------- channels ---------- */
 .chan{display:flex; justify-content:space-between; align-items:baseline; gap:1rem;
