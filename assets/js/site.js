@@ -34,7 +34,7 @@
         var h = lhr.getHours();
         var hhmm = String(h).padStart(2, '0') + ':' + String(lhr.getMinutes()).padStart(2, '0');
         var says =
-          h < 5  ? 'should be asleep' :
+          h < 5  ? 'still working' :
           h < 9  ? 'slow morning' :
           h < 12 ? 'first coffee' :
           h < 17 ? 'mid-timeline' :
