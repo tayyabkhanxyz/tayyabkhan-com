@@ -481,3 +481,47 @@ figcaption{font-size:11px; color:var(--faint); margin-top:.5rem}
   100%{opacity:0; transform:translate(10px,-300%)}
 }
 @media (prefers-reduced-motion:reduce){.zzz svg{animation:none; opacity:.7}}
+/* ==========================================================================
+   touch targets
+   The type on this site is deliberately small, so rather than enlarging
+   anything, the TAP AREA is grown behind it with an invisible ::after. The
+   design is untouched; a 20px link simply gains a 44px reach. All of it is
+   scoped to touch pointers, so a mouse still gets the original hit boxes.
+   ========================================================================== */
+@media (hover:none), (pointer:coarse){
+
+  /* the one thing that cannot be faked: iOS zooms the page when it focuses
+     an input under 16px, and the layout does not always come back. */
+  .field input,.field select,.field textarea{font-size:16px; padding:.78rem 0}
+
+  .submit{min-height:44px; padding-inline:1.3rem}
+
+  /* height-only reach for inline links -- widening them would let adjacent
+     targets overlap and steal each other's taps */
+  .site-nav a, .soc a, .mail, .next, .or a, .ch-head{position:relative}
+  .site-nav a::after, .soc a::after, .mail::after, .next::after, .or a::after,
+  .ch-head::after{
+    content:''; position:absolute; left:0; right:0; top:50%;
+    height:44px; transform:translateY(-50%);
+  }
+  /* when the nav wraps (320px and below) the two lines' 44px reaches would
+     overlap by a pixel, so a tap near the boundary hits the wrong link.
+     measured: 1.5rem left them 43px apart; this clears it. */
+  .site-nav{row-gap:1.75rem}
+
+  /* square controls: reach out in both directions from the centre.
+     .play and .hare are already absolutely positioned -- forcing relative
+     on them tore them out of place, so only .pp needs establishing here. */
+  .pp{position:relative}
+  .mark::after, .tog::after, .pp::after, .hare::after{
+    content:''; position:absolute; left:50%; top:50%;
+    width:44px; height:44px; min-width:44px; transform:translate(-50%,-50%);
+  }
+
+  /* the scrubber is 2px tall; the bar stays 2px, the reach does not */
+  .bar{position:relative}
+  .bar::after{content:''; position:absolute; left:0; right:0; top:50%;
+    height:28px; transform:translateY(-50%)}
+
+  #lb .ctl{min-width:44px; min-height:44px; padding:1rem}
+}

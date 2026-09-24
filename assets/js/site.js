@@ -276,6 +276,20 @@
       lb.querySelector('.p').addEventListener('click', function (e) { e.stopPropagation(); show(at - 1); });
       lb.querySelector('.n').addEventListener('click', function (e) { e.stopPropagation(); show(at + 1); });
       lb.addEventListener('click', function (e) { if (e.target === lb) hide(); });
+
+      // swiping is what a thumb reaches for first, and the arrows are 28px
+      // wide. horizontal beats vertical so a scroll is never read as a swipe.
+      var tx = 0, ty = 0;
+      lb.addEventListener('touchstart', function (e) {
+        tx = e.changedTouches[0].clientX;
+        ty = e.changedTouches[0].clientY;
+      }, { passive: true });
+      lb.addEventListener('touchend', function (e) {
+        var dx = e.changedTouches[0].clientX - tx;
+        var dy = e.changedTouches[0].clientY - ty;
+        if (Math.abs(dx) < 45 || Math.abs(dx) < Math.abs(dy)) return;
+        show(at + (dx < 0 ? 1 : -1));
+      }, { passive: true });
       document.addEventListener('keydown', function (e) {
         if (!lb.classList.contains('on')) return;
         if (e.key === 'Escape') hide();
