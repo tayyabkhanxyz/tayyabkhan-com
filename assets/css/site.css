@@ -58,7 +58,11 @@ body{
   letter-spacing:normal; -webkit-font-smoothing:antialiased;
 }
 ::selection{background:var(--ink); color:var(--bg)}
-img{max-width:100%; display:block}
+/* height:auto is the companion to max-width:100% -- without it, an image
+   carrying width/height attributes keeps its attribute height while the
+   width shrinks, and stretches. The homepage portrait did exactly that
+   on mobile: 200x345 against a true 2:3, so 45px too tall. */
+img{max-width:100%; height:auto; display:block}
 a{color:inherit}
 
 /* ---------- grain ---------- */
