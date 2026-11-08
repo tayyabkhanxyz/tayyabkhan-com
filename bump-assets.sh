@@ -9,7 +9,9 @@ js  = hashlib.md5(open('assets/js/site.js','rb').read()).hexdigest()[:8]
 fab = hashlib.md5(open('assets/js/fable.js','rb').read()).hexdigest()[:8]
 vid = hashlib.md5(open('assets/video/profile.mp4','rb').read()).hexdigest()[:8]
 pos = hashlib.md5(open('assets/video/profile-poster.jpg','rb').read()).hexdigest()[:8]
-for f in ['index.html', '404.html'] + sorted(glob.glob('*/index.html')):
+csc = hashlib.md5(open('assets/css/case-study.css','rb').read()).hexdigest()[:8]
+csj = hashlib.md5(open('assets/js/case-study.js','rb').read()).hexdigest()[:8]
+for f in ['index.html', '404.html'] + sorted(glob.glob('*/index.html')) + sorted(glob.glob('*/*/index.html')):
     s = open(f).read()
     s = re.sub(r'href="/assets/css/site\.css(\?v=[a-f0-9]+)?"', f'href="/assets/css/site.css?v={css}"', s)
     s = re.sub(r'src="/assets/js/site\.js(\?v=[a-f0-9]+)?"',   f'src="/assets/js/site.js?v={js}"', s)
@@ -20,6 +22,8 @@ for f in ['index.html', '404.html'] + sorted(glob.glob('*/index.html')):
                f'src="/assets/video/profile.mp4?v={vid}"', s)
     s = re.sub(r'poster="/assets/video/profile-poster\.jpg(\?v=[a-f0-9]+)?"',
                f'poster="/assets/video/profile-poster.jpg?v={pos}"', s)
+    s = re.sub(r'href="/assets/css/case-study\.css(\?v=[a-f0-9]+)?"', f'href="/assets/css/case-study.css?v={csc}"', s)
+    s = re.sub(r'src="/assets/js/case-study\.js(\?v=[a-f0-9]+)?"',   f'src="/assets/js/case-study.js?v={csj}"', s)
     open(f,'w').write(s)
-print('stamped css', css, 'js', js, 'fable', fab, 'video', vid)
+print('stamped css', css, 'js', js, 'fable', fab, 'video', vid, 'case-study', csc, csj)
 PY

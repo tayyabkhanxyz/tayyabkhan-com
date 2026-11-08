@@ -246,6 +246,18 @@ h1{font-size:28px; font-weight:700; color:var(--ink); letter-spacing:-.7px; line
 .vid .m{font-size:11px; color:var(--faint)}
 /* work grouped by channel */
 .work + .work{margin-top:2.25rem}
+/* the case study link card on the editing page */
+.case{display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:1.4rem; align-items:center; text-decoration:none}
+.case .t{aspect-ratio:16/9; overflow:hidden; border-radius:2px; background:var(--raise)}
+.case .t img{width:100%; height:100%; object-fit:cover; transition:transform .6s cubic-bezier(.2,.7,.3,1)}
+.case:hover .t img{transform:scale(1.03)}
+.case .k{font-size:11px; letter-spacing:1.2px; text-transform:uppercase; color:var(--faint)}
+.case h3{font-size:18px; font-weight:500; margin:.45rem 0 .4rem; color:var(--ink); transition:text-shadow .3s}
+.case h3 span{display:inline-block; transition:transform .3s cubic-bezier(.2,.7,.3,1)}
+.case:hover h3{text-shadow:0 0 14px var(--glow)}
+.case:hover h3 span{transform:translateX(4px)}
+.case p{font-size:13px; line-height:1.55; color:var(--muted); margin:0}
+@media (max-width:560px){.case{grid-template-columns:1fr; gap:.9rem}}
 .ch-head{display:flex; align-items:baseline; gap:.7rem; text-decoration:none; margin-bottom:.9rem}
 .ch-head .n{font-size:14px; font-weight:500; letter-spacing:-.3px; color:var(--ink);
   transition:text-shadow .3s; white-space:nowrap}
