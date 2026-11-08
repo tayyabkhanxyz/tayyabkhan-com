@@ -1,0 +1,104 @@
+/* case study pages -- direction B: the site's colours, Inter and theme
+   switching throughout; only the big title and the step names speak in the
+   client's handwriting. Her brand otherwise lives inside the frames: the
+   photo, the chips, the type specimen, the clips. Loaded on case study
+   pages only. */
+
+.cs{
+  --hand:"Reenie Beanie", cursive;
+  /* her paper, used only where her brand is shown as an object */
+  --cs-paper:#F6F3EE; --cs-ink:#2A2622; --cs-soft:#6E675F; --cs-rule:#DDD5CB; --cs-toile:#2E4A7A;
+  width:min(62rem, calc(100vw - 2 * var(--pad)));
+  position:relative; left:50%; transform:translateX(-50%);
+  display:grid; gap:clamp(4rem,10vw,7rem);
+}
+
+/* ---------- header ---------- */
+.cs-head .kicker{font-size:12px; letter-spacing:1.2px; text-transform:uppercase; color:var(--faint); margin:0}
+.cs-head .title{font-family:var(--hand); font-weight:400; font-size:clamp(56px,8vw,96px);
+  line-height:.95; color:var(--ink); margin:.4rem 0 0}
+.cs-head .lede{margin:.9rem 0 0; max-width:46ch; font-size:16px; line-height:1.6}
+.strip{display:flex; flex-wrap:wrap; gap:.5rem; margin:1.6rem 0 0; padding:0; list-style:none}
+.strip a{display:flex; align-items:center; gap:.45rem; font-size:12px; letter-spacing:1.2px; text-transform:uppercase;
+  padding:.45rem .8rem; border:1px solid var(--line); border-radius:999px; color:var(--body); text-decoration:none;
+  transition:border-color .25s, color .25s}
+.strip a b{font-weight:500; color:var(--ink)}
+.strip a:hover{border-color:var(--muted); color:var(--ink)}
+
+/* ---------- a step: label column beside the media ---------- */
+.step{display:grid; grid-template-columns:13rem minmax(0,1fr); gap:2.2rem; align-items:start; scroll-margin-top:2rem}
+.step .num{display:block; font-family:"Libre Caslon Display",serif; font-size:44px; line-height:.9; color:var(--faint)}
+.step h2{font-family:var(--hand); font-weight:400; font-size:clamp(38px,4vw,50px); line-height:1; margin:.4rem 0 0; color:var(--ink)}
+.step .say{margin:.6rem 0 0; font-size:13px; color:var(--muted); max-width:22ch; line-height:1.5}
+.media{min-width:0}
+.frame{display:block; width:100%; aspect-ratio:16/9; object-fit:cover; border:1px solid var(--line); background:var(--raise)}
+
+/* ---------- 01 the room ---------- */
+.room{position:relative; display:grid; grid-template-columns:minmax(0,1fr) 9.5rem; gap:.75rem}
+.room .photo{position:relative; min-width:0}
+.chips{display:grid; gap:.5rem}
+.chip{display:flex; flex-direction:column; justify-content:flex-end; padding:.55rem .7rem; min-height:3.6rem;
+  font-size:12px; font-weight:500; border:1px solid var(--line); will-change:transform}
+.chip small{font-size:11px; opacity:.75; font-variant-numeric:tabular-nums; letter-spacing:.04em}
+/* the sampling ring that marks where each colour was taken from */
+.pick{position:absolute; width:22px; height:22px; margin:-11px 0 0 -11px; border-radius:50%;
+  border:1.5px solid #fff; box-shadow:0 0 0 1px rgba(0,0,0,.35); opacity:0; pointer-events:none}
+
+/* ---------- 02 the type specimen: shown on her paper, as an object ---------- */
+.type{border:1px solid var(--line); background:var(--cs-paper); color:var(--cs-ink)}
+.trow{display:grid; grid-template-columns:minmax(0,1fr) 12rem; align-items:center; gap:1rem;
+  padding:1rem 1.4rem; border-top:1px solid var(--cs-rule)}
+.trow:first-child{border-top:0}
+/* plain and branded share one grid cell, so the row is always as tall as the
+   branded version and nothing shifts when it switches */
+.trow .s{display:grid; min-width:0}
+.trow .s > span{grid-area:1/1; align-self:center; overflow-wrap:anywhere;
+  transition:opacity .45s ease, filter .45s ease, transform .45s ease}
+.trow .plain{font-family:var(--sans); font-size:18px; color:var(--cs-soft)}
+.trow .brand{opacity:0; filter:blur(3px); transform:translateY(4px)}
+.trow.on .plain{opacity:0; filter:blur(3px)}
+.trow.on .brand{opacity:1; filter:none; transform:none}
+.trow .f{font-size:11px; letter-spacing:1.2px; text-transform:uppercase; color:var(--cs-soft); text-align:right; line-height:1.5}
+
+/* ---------- 03 the pieces ---------- */
+.pieces{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:.75rem}
+.piece{margin:0; display:grid; gap:.45rem; min-width:0}
+.piece.wide{grid-column:span 2}
+.piece figcaption{font-size:11px; letter-spacing:1.2px; text-transform:uppercase; color:var(--faint)}
+.pieces.armed .piece{opacity:0; transform:translateY(18px)}
+.pieces.armed .piece.in{opacity:1; transform:none; transition:opacity .6s ease, transform .6s cubic-bezier(.2,.7,.3,1)}
+
+/* ---------- 04 the edit ---------- */
+.edit video{display:block; width:100%; aspect-ratio:16/9; border:1px solid var(--line); background:#000}
+
+/* ---------- 05 the guide ---------- */
+.pages{display:flex; gap:.75rem; overflow-x:auto; scroll-snap-type:x mandatory; padding-bottom:.6rem;
+  scrollbar-width:thin; cursor:grab; overscroll-behavior-x:contain}
+.pages.dragging{cursor:grabbing; scroll-snap-type:none}
+.pages img{flex:0 0 78%; max-width:78%; aspect-ratio:16/9; object-fit:cover; border:1px solid var(--line);
+  scroll-snap-align:start; user-select:none; -webkit-user-drag:none}
+.pages.armed img{opacity:0; transform:translateX(40px) rotate(1.2deg)}
+.pages.armed img.in{opacity:1; transform:none; transition:opacity .6s ease, transform .7s cubic-bezier(.2,.7,.3,1)}
+
+/* ---------- call to action ---------- */
+.cs-end{display:grid; justify-items:center; gap:1.4rem; text-align:center; padding-top:1rem}
+.cs-end p{font-family:var(--hand); font-size:clamp(44px,6vw,72px); line-height:1; margin:0; color:var(--ink)}
+
+/* ---------- phones ---------- */
+@media (max-width:760px){
+  .step{grid-template-columns:1fr; gap:1rem}
+  .room{grid-template-columns:1fr}
+  .chips{grid-template-columns:repeat(5,minmax(0,1fr))}
+  .chip{min-height:3rem; font-size:10px; padding:.4rem}
+  .chip small{display:none}
+  .trow{grid-template-columns:1fr; gap:.3rem; padding:.9rem 1rem}
+  .trow .f{text-align:left}
+  .pieces{grid-template-columns:repeat(2,minmax(0,1fr))}
+  /* eight pieces with one wide makes an odd count; the last one closes the row */
+  .piece:last-child{grid-column:span 2}
+  .pages img{flex-basis:88%; max-width:88%}
+}
+
+@media (prefers-reduced-motion:reduce){
+  .trow .s > span, .pieces .piece, .pages img{transition:none!important}
+}

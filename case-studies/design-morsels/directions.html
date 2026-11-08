@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Directions — Design Morsels</title>
+<meta name="description" content="Direction comparison">
+<meta property="og:title" content="Directions — Design Morsels">
+<meta property="og:description" content="Direction comparison">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://tayyabkhan.com/case-studies/design-morsels/">
+<meta property="og:image" content="https://tayyabkhan.com/assets/case-studies/design-morsels/clips/sample-edit-poster.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://tayyabkhan.com/case-studies/design-morsels/">
+<link rel="icon" href="/assets/img/favicon.png" type="image/png">
+<link rel="alternate icon" href="/favicon.ico" sizes="any">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Abhaya+Libre:wght@700&family=Jost&family=Libre+Baskerville:ital@1&family=Libre+Caslon+Display&family=Libre+Caslon+Text&family=Reenie+Beanie&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/site.css?v=3b658a05">
+<script>try{var t=localStorage.getItem('theme');if(t)document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+<style>
+.dirlabel{width:min(62rem, calc(100vw - 2 * var(--pad))); position:relative; left:50%; transform:translateX(-50%); margin:4.5rem 0 1.2rem; font-size:12px; letter-spacing:1.2px; text-transform:uppercase; color:var(--faint)}
+.dirlabel b{color:var(--mail); font-weight:500; margin-right:.6rem}
+.cs{width:min(62rem, calc(100vw - 2 * var(--pad))); position:relative; left:50%; transform:translateX(-50%)}
+.cs .kicker{font-size:12px; letter-spacing:1.2px; text-transform:uppercase; color:var(--faint); margin:0}
+.cs .lede{margin:.9rem 0 0; max-width:46ch; font-size:16px; line-height:1.6}
+.cs .strip{display:flex; flex-wrap:wrap; gap:.5rem; margin:1.6rem 0 0; padding:0; list-style:none}
+.cs .strip li{display:flex; align-items:center; gap:.45rem; font-size:12px; letter-spacing:1.2px; text-transform:uppercase;
+  padding:.45rem .8rem; border:1px solid var(--line); border-radius:999px; color:var(--body)}
+.cs .strip b{font-weight:500; color:var(--ink)}
+.cs .step{display:grid; grid-template-columns:13rem minmax(0,1fr); gap:2.2rem; align-items:start; margin-top:4rem}
+.cs .num{display:block; font-size:12px; letter-spacing:1.2px; color:var(--faint)}
+.cs h2{margin:.4rem 0 0; font-weight:500; color:var(--ink)}
+.cs .say{margin:.6rem 0 0; font-size:13px; color:var(--muted); max-width:22ch; line-height:1.5}
+.cs .room{display:grid; grid-template-columns:minmax(0,1fr) 9.5rem; gap:.75rem; min-width:0}
+.cs .frame{display:block; width:100%; aspect-ratio:16/9; object-fit:cover; border:1px solid var(--line)}
+.cs .chips{display:grid; gap:.5rem}
+.cs .chip{display:flex; flex-direction:column; justify-content:flex-end; padding:.55rem .7rem; min-height:3.6rem;
+  font-size:12px; font-weight:500; border:1px solid var(--line)}
+.cs .chip small{font-size:11px; opacity:.75; font-variant-numeric:tabular-nums; letter-spacing:.04em}
+
+/* A: entirely the site -- her brand lives only inside the frames */
+.dirA .title{font-size:28px; font-weight:700; letter-spacing:-.7px; color:var(--ink); margin:.6rem 0 0; line-height:1.15}
+.dirA h2{font-size:18px; letter-spacing:-.3px}
+
+/* B: the site, speaking in her handwriting for titles only */
+.dirB .title{font-family:"Reenie Beanie",cursive; font-size:clamp(56px,8vw,96px); line-height:.95; color:var(--ink); margin:.4rem 0 0}
+.dirB h2{font-family:"Reenie Beanie",cursive; font-weight:400; font-size:clamp(38px,4vw,50px); line-height:1}
+.dirB .num{font-family:"Libre Caslon Display",serif; font-size:44px; letter-spacing:0; line-height:.9; color:var(--faint)}
+
+/* C: her world as a sheet laid on yours */
+.dirC{background:#F6F3EE; color:#2A2622; padding:clamp(1.5rem,4vw,3rem); border:1.5px solid #2A2622}
+.dirC .kicker{color:#6E675F} .dirC .lede{color:#6E675F}
+.dirC .title{font-family:"Reenie Beanie",cursive; font-size:clamp(56px,8vw,96px); line-height:.95; color:#2A2622; margin:.4rem 0 0}
+.dirC .strip li{border-color:#2A2622; color:#2A2622} .dirC .strip b{color:#2E4A7A}
+.dirC h2{font-family:"Reenie Beanie",cursive; font-weight:400; font-size:clamp(38px,4vw,50px); line-height:1; color:#2A2622}
+.dirC .num{font-family:"Libre Caslon Display",serif; font-size:44px; letter-spacing:0; line-height:.9; color:#2E4A7A}
+.dirC .say{color:#6E675F}
+.dirC .frame{border:1.5px solid #2A2622} .dirC .chip{border-color:#2A2622}
+
+@media (max-width:760px){
+  .cs .step{grid-template-columns:1fr; gap:1rem}
+  .cs .room{grid-template-columns:1fr}
+  .cs .chips{grid-template-columns:repeat(5,minmax(0,1fr))}
+  .cs .chip{min-height:3rem; font-size:10px; padding:.4rem}
+  .cs .chip small{display:none}
+}
+</style>
+</head>
+<body>
+<div id="grain" aria-hidden="true"></div>
+<div id="grain-c" aria-hidden="true"></div>
+
+<div class="wrap">
+  <header class="site-head">
+    <a class="mark" href="/" aria-label="Tayyab Khan — home"><span class="flower" aria-hidden="true"><span class="fill"></span><span class="line"></span><span class="line inked"></span></span></a>
+    <div class="head-right">
+      <p class="clock" id="clock"><b>—— lhe</b>lahore</p>
+      <button class="tog" aria-label="switch theme" aria-pressed="false">
+        <svg class="ic sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.6"/><path d="M12 1.6v2.6M12 19.8v2.6M1.6 12h2.6M19.8 12h2.6M4.6 4.6l1.9 1.9M17.5 17.5l1.9 1.9M19.4 4.6l-1.9 1.9M6.5 17.5l-1.9 1.9"/></svg>
+        <svg class="ic moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.2 14.6A8.7 8.7 0 0 1 9.4 3.8a8.7 8.7 0 1 0 10.8 10.8Z"/></svg>
+      </button>
+    </div>
+  </header>
+  <h1 class="sr-only">Case study directions</h1>
+  <nav class="site-nav" style="padding-bottom:clamp(2rem,6vw,3rem);margin-top:-1.5rem">
+      <a href="/youtube-video-editing/" aria-current="page">video editing</a>
+      <a href="/photography/">photography</a>
+      <a href="/youtube/">my videos</a>
+      <a href="/about/">about</a>
+      <a href="/contact/">contact</a>
+  </nav>
+
+<p class="dirlabel" style="margin-top:0">three directions for the top of the case study. same content, same chrome. point at one.</p>
+  <div class="dirlabel"><b>A</b>entirely your site · her brand only inside the frames</div>
+  <article class="cs dirA">
+    <header class="cs-head">
+      <p class="kicker">case study · design morsels · interior design on youtube</p>
+      <p class="title">from plain to branded</p>
+      <p class="lede">a full channel identity, built from scratch around one creator and her room.</p>
+      <ol class="strip"><li><b>1</b>listen</li><li><b>2</b>type</li><li><b>3</b>elements</li><li><b>4</b>edit</li><li><b>5</b>guide</li></ol>
+    </header>
+    <section class="step">
+      <div class="lab"><span class="num">01</span><h2>listen to the room</h2><p class="say">every colour comes from her filming set</p></div>
+      <div class="room">
+        <img class="frame" src="/assets/case-studies/design-morsels/img/set-frame.jpg" alt="Andrea on her filming set: striped wallpaper, toile cloth, peonies, chambray shirt">
+        <div class="chips"><div class="chip" style="background:#EFE8E1;color:#2A2622">ticking cream<small>#EFE8E1</small></div><div class="chip" style="background:#2E4A7A;color:#EFE8E1">toile blue<small>#2E4A7A</small></div><div class="chip" style="background:#2A2622;color:#EFE8E1">ink<small>#2A2622</small></div><div class="chip" style="background:#A9BCD6;color:#2A2622">chambray<small>#A9BCD6</small></div><div class="chip" style="background:#9E4851;color:#EFE8E1">peony<small>#9E4851</small></div></div>
+      </div>
+    </section>
+  </article>
+  <div class="dirlabel"><b>B</b>your site, with her handwriting for the titles</div>
+  <article class="cs dirB">
+    <header class="cs-head">
+      <p class="kicker">case study · design morsels · interior design on youtube</p>
+      <p class="title">from plain to branded</p>
+      <p class="lede">a full channel identity, built from scratch around one creator and her room.</p>
+      <ol class="strip"><li><b>1</b>listen</li><li><b>2</b>type</li><li><b>3</b>elements</li><li><b>4</b>edit</li><li><b>5</b>guide</li></ol>
+    </header>
+    <section class="step">
+      <div class="lab"><span class="num">01</span><h2>listen to the room</h2><p class="say">every colour comes from her filming set</p></div>
+      <div class="room">
+        <img class="frame" src="/assets/case-studies/design-morsels/img/set-frame.jpg" alt="Andrea on her filming set: striped wallpaper, toile cloth, peonies, chambray shirt">
+        <div class="chips"><div class="chip" style="background:#EFE8E1;color:#2A2622">ticking cream<small>#EFE8E1</small></div><div class="chip" style="background:#2E4A7A;color:#EFE8E1">toile blue<small>#2E4A7A</small></div><div class="chip" style="background:#2A2622;color:#EFE8E1">ink<small>#2A2622</small></div><div class="chip" style="background:#A9BCD6;color:#2A2622">chambray<small>#A9BCD6</small></div><div class="chip" style="background:#9E4851;color:#EFE8E1">peony<small>#9E4851</small></div></div>
+      </div>
+    </section>
+  </article>
+  <div class="dirlabel"><b>C</b>her world as a cream sheet laid on yours</div>
+  <article class="cs dirC">
+    <header class="cs-head">
+      <p class="kicker">case study · design morsels · interior design on youtube</p>
+      <p class="title">from plain to branded</p>
+      <p class="lede">a full channel identity, built from scratch around one creator and her room.</p>
+      <ol class="strip"><li><b>1</b>listen</li><li><b>2</b>type</li><li><b>3</b>elements</li><li><b>4</b>edit</li><li><b>5</b>guide</li></ol>
+    </header>
+    <section class="step">
+      <div class="lab"><span class="num">01</span><h2>listen to the room</h2><p class="say">every colour comes from her filming set</p></div>
+      <div class="room">
+        <img class="frame" src="/assets/case-studies/design-morsels/img/set-frame.jpg" alt="Andrea on her filming set: striped wallpaper, toile cloth, peonies, chambray shirt">
+        <div class="chips"><div class="chip" style="background:#EFE8E1;color:#2A2622">ticking cream<small>#EFE8E1</small></div><div class="chip" style="background:#2E4A7A;color:#EFE8E1">toile blue<small>#2E4A7A</small></div><div class="chip" style="background:#2A2622;color:#EFE8E1">ink<small>#2A2622</small></div><div class="chip" style="background:#A9BCD6;color:#2A2622">chambray<small>#A9BCD6</small></div><div class="chip" style="background:#9E4851;color:#EFE8E1">peony<small>#9E4851</small></div></div>
+      </div>
+    </section>
+  </article>
+
+  <footer class="site-foot">
+    <div class="foot-in">
+      <span class="foot-social">
+        <span class="soc">
+          <a href="https://www.instagram.com/tayyabkhan.me" target="_blank" rel="noopener">instagram</a>
+          <a href="https://www.youtube.com/@tayyaabkhan" target="_blank" rel="noopener">youtube</a>
+        </span>
+        <a class="mail" href="mailto:tayyabkhanwork@gmail.com">tayyabkhanwork@gmail.com</a>
+      </span>
+      <span class="cup"><svg class="tk cup" width="46" height="41" viewBox="0 0 34 30" fill="none"
+     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+  <path fill="currentColor" d="M6.2 12.6h15.6v8.2c0 2.3-2 3.7-7.8 3.7s-7.8-1.4-7.8-3.7v-8.2Z"/>
+  <path d="M21.8 14.8c2.3-.4 3.5.4 3.5 2.1s-1.2 2.6-3.5 2.3"/>
+  <path class="st" d="M10.6 9.4c.9-1 .9-2.2 0-3.2"/>
+  <path class="st st2" d="M14 8.8c.9-1 .9-2.2 0-3.2"/>
+  <path class="st st3" d="M17.2 9.6c.9-1 .9-2.2 0-3.2"/>
+</svg></span>
+    </div>
+  </footer>
+</div>
+
+<script src="/assets/js/site.js?v=8589e385"></script>
+</body>
+</html>
