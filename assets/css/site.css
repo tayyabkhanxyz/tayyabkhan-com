@@ -412,6 +412,8 @@ h1{font-size:28px; font-weight:700; color:var(--ink); letter-spacing:-.7px; line
   padding:.55rem 1.1rem; transition:border-color .2s,text-shadow .3s}
 .submit:hover{border-color:var(--muted); text-shadow:0 0 14px var(--glow)}
 .submit[disabled]{opacity:.4; cursor:wait}
+/* spam trap: off-screen, so people never see it but form-filling bots do */
+.trap{position:absolute; left:-9999px; width:1px; height:1px; overflow:hidden}
 .form-msg{font-size:13px; color:var(--muted); min-height:1.2em; margin:0}
 .form-msg a{color:var(--ink)}
 .or{margin:.35rem 0 0; font-size:13px; color:var(--faint)}

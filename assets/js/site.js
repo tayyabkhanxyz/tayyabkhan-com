@@ -314,7 +314,7 @@
           form.reset();
           msg.textContent = 'got it. i’ll reply in a couple of days — sooner if the coffee works.';
         }).catch(function () {
-          msg.innerHTML = 'the form isn’t wired up yet — email me at ' +
+          msg.innerHTML = 'that didn’t send. email me at ' +
             '<a href="mailto:tayyabkhanwork@gmail.com">tayyabkhanwork@gmail.com</a>.';
         }).finally(function () { b.disabled = false; });
       });

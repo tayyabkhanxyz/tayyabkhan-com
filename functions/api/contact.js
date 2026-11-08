@@ -22,6 +22,10 @@ export async function onRequestPost({ request, env }) {
     return json({ error: 'bad request' }, 400);
   }
 
+  // the hidden "website" field is invisible to people; only bots fill it in.
+  // answer as if it worked so they don't learn to skip it, and send nothing.
+  if ((data.website || '').trim()) return json({ ok: true }, 200);
+
   const name = (data.name || '').trim();
   const email = (data.email || '').trim();
   const about = (data.about || 'unspecified').trim();
