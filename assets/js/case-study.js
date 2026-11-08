@@ -40,31 +40,47 @@
         room.appendChild(r);
         return r;
       });
+      var back = function (t) { var c = 1.4, u = t - 1; return 1 + (c + 1) * u * u * u + c * u * u; };
       jobs.push(function (vh) {
         var top = room.getBoundingClientRect().top;
         if (top > vh * 1.4 || top < -vh * 1.4) return;
-        // the room already sits ~two thirds down the first screen on desktop,
-        // so the scrub starts there: on arrival every colour is still a dot on
-        // the photo, and the first bit of scrolling starts lifting them out
-        var p = clamp((vh * 0.62 - top) / (vh * 0.42));
+        // on a big screen the room is already in view on arrival, so the scrub
+        // starts just below wherever it first sits: every colour is still a
+        // ringed dot on the photo, and the first bit of scrolling "picks" the
+        // first one and lifts it out
+        var a = Math.max(0.3, Math.min(0.48, (top + window.scrollY) / vh - 0.06));
+        var p = (vh * a - top) / (vh * 0.34);
         var pw = photo.offsetWidth, ph = photo.offsetHeight;
         chips.forEach(function (c, i) {
-          var t = ease(clamp((p - i * 0.12) / 0.5));
-          var w = c.offsetWidth, h = c.offsetHeight, k = 1 - t;
+          var r = (p - i * 0.12) / 0.5;          // this chip's own progress, unclamped
+          var t = clamp(r), e = ease(t), k = 1 - e;
+          var w = c.offsetWidth, h = c.offsetHeight;
           var sx = photo.offsetLeft + parseFloat(c.dataset.x) / 100 * pw;
           var sy = photo.offsetTop + parseFloat(c.dataset.y) / 100 * ph;
-          var cx = c.offsetLeft + w / 2, cy = c.offsetTop + h / 2;
-          // starts as a 22px dot sitting on the colour, ends as the swatch
-          var scx = 22 / w + (1 - 22 / w) * t, scy = 22 / h + (1 - 22 / h) * t;
-          c.style.transform = 'translate(' + (sx - cx) * k + 'px,' + (sy - cy) * k + 'px) scale(' + scx + ',' + scy + ')';
+          var dx = sx - (c.offsetLeft + w / 2), dy = sy - (c.offsetTop + h / 2);
+          // the flight is an arc, not a straight slide: a quadratic curve whose
+          // control point bows out to one side (upward where it can)
+          var len = Math.hypot(dx, dy) || 1, nx = -dy / len, ny = dx / len;
+          if (ny > 0 || (ny === 0 && nx < 0)) { nx = -nx; ny = -ny; }
+          var bow = Math.min(140, len * 0.32);
+          var qx = dx / 2 + nx * bow, qy = dy / 2 + ny * bow;
+          var ox = k * k * dx + 2 * k * e * qx, oy = k * k * dy + 2 * k * e * qy;
+          // grows from a 22px dot to the swatch, overshooting a touch as it lands
+          var g = t <= 0 ? 0 : t >= 1 ? 1 : back(t);
+          var scx = 22 / w + (1 - 22 / w) * g, scy = 22 / h + (1 - 22 / h) * g;
+          c.style.transform = 'translate(' + ox + 'px,' + oy + 'px) scale(' + scx + ',' + scy + ')';
           c.style.borderRadius = (w / 2 * k) + 'px / ' + (h / 2 * k) + 'px';
           c.style.color = t > 0.75 ? '' : 'transparent';
-          var ring = rings[i];
+          // the pick: just before it leaves, the ring tightens around the dot,
+          // then springs open and fades as the colour lifts away
+          var ring = rings[i], rs, ro;
+          if (r < -0.25) { rs = 1; ro = 1; }
+          else if (r < 0) { rs = 1 - 0.35 * ease((r + 0.25) / 0.25); ro = 1; }
+          else { var o = clamp(r / 0.3); rs = 0.65 + 1.35 * ease(o); ro = 1 - o; }
           ring.style.left = sx + 'px';
           ring.style.top = sy + 'px';
-          // rings mark all five colours on arrival -- a peony dot on peonies is
-          // otherwise invisible -- and fade as each chip lifts away
-          ring.style.opacity = t < 0.08 ? 1 : Math.max(0, 1 - (t - 0.08) / 0.4);
+          ring.style.transform = 'scale(' + rs + ')';
+          ring.style.opacity = ro;
         });
       });
     }

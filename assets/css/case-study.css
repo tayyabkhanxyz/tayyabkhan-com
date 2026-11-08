@@ -26,9 +26,9 @@
 .strip a:hover{border-color:var(--muted); color:var(--ink)}
 
 /* ---------- a step: label column beside the media ---------- */
-.step{display:grid; grid-template-columns:13rem minmax(0,1fr); gap:2.2rem; align-items:start; scroll-margin-top:2rem}
+.step{display:grid; grid-template-columns:15.5rem minmax(0,1fr); gap:2.2rem; align-items:start; scroll-margin-top:2rem}
 .step .num{display:block; font-family:"Libre Caslon Display",serif; font-size:44px; line-height:.9; color:var(--faint)}
-.step h2{font-family:var(--hand); font-weight:400; font-size:clamp(38px,4vw,50px); line-height:1; margin:.4rem 0 0; color:var(--ink)}
+.step h2{font-family:var(--hand); font-weight:400; font-size:clamp(34px,3.2vw,40px); line-height:1; margin:.4rem 0 0; color:var(--ink)}
 .step .say{margin:.6rem 0 0; font-size:13px; color:var(--muted); max-width:22ch; line-height:1.5}
 .media{min-width:0}
 .frame{display:block; width:100%; aspect-ratio:16/9; object-fit:cover; border:1px solid var(--line); background:var(--raise)}
@@ -88,9 +88,11 @@
 @media (max-width:760px){
   .step{grid-template-columns:1fr; gap:1rem}
   .room{grid-template-columns:1fr}
-  .chips{grid-template-columns:repeat(5,minmax(0,1fr))}
-  .chip{min-height:3rem; font-size:10px; padding:.4rem}
-  .chip small{display:none}
+  /* three over two: wide enough that every name sits on one line */
+  .chips{grid-template-columns:repeat(6,minmax(0,1fr))}
+  .chip{grid-column:span 2; min-height:3rem; font-size:11px; padding:.45rem .55rem}
+  .chip:nth-child(n+4){grid-column:span 3}
+  .chip small{font-size:10px}
   .trow{grid-template-columns:1fr; gap:.3rem; padding:.9rem 1rem}
   .trow .f{text-align:left}
   .pieces{grid-template-columns:repeat(2,minmax(0,1fr))}
