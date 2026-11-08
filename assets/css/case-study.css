@@ -63,7 +63,10 @@
 /* ---------- 03 the pieces ---------- */
 .pieces{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:.75rem}
 .piece{margin:0; display:grid; gap:.45rem; min-width:0}
-.piece.wide{grid-column:span 2}
+/* the slot tile takes a 2x2 block, so the two tiles beside it stack to its
+   height and no row is left half empty */
+.piece.wide{grid-column:span 2; grid-row:span 2; grid-template-rows:minmax(0,1fr) auto}
+.piece.wide video{height:100%; aspect-ratio:auto}
 .piece figcaption{font-size:11px; letter-spacing:1.2px; text-transform:uppercase; color:var(--faint)}
 .pieces.armed .piece{opacity:0; transform:translateY(18px)}
 .pieces.armed .piece.in{opacity:1; transform:none; transition:opacity .6s ease, transform .6s cubic-bezier(.2,.7,.3,1)}
@@ -96,8 +99,8 @@
   .trow{grid-template-columns:1fr; gap:.3rem; padding:.9rem 1rem}
   .trow .f{text-align:left}
   .pieces{grid-template-columns:repeat(2,minmax(0,1fr))}
-  /* eight pieces with one wide makes an odd count; the last one closes the row */
-  .piece:last-child{grid-column:span 2}
+  .piece.wide{grid-row:auto; grid-template-rows:auto}
+  .piece.wide video{height:auto; aspect-ratio:16/9}
   .pages img{flex-basis:88%; max-width:88%}
 }
 
