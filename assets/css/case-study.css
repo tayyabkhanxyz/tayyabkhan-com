@@ -16,7 +16,7 @@
 /* ---------- header ---------- */
 .cs-head .kicker{font-size:12px; letter-spacing:1.2px; text-transform:uppercase; color:var(--faint); margin:0}
 .cs-head .title{font-family:var(--hand); font-weight:400; font-size:clamp(56px,8vw,96px);
-  line-height:.95; color:var(--ink); margin:.4rem 0 0}
+  line-height:.95; color:var(--ink); margin:0}
 .cs-head .lede{margin:.9rem 0 0; max-width:46ch; font-size:16px; line-height:1.6}
 .strip{display:flex; flex-wrap:wrap; gap:.5rem; margin:1.6rem 0 0; padding:0; list-style:none}
 .strip a{display:flex; align-items:center; gap:.45rem; font-size:12px; letter-spacing:1.2px; text-transform:uppercase;
