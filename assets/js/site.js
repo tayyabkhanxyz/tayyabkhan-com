@@ -267,6 +267,7 @@
       function show(i) {
         at = (i + shots.length) % shots.length;
         lbImg.src = shots[at].getAttribute('data-full');
+        var th = shots[at].querySelector('img'); lbImg.alt = th ? th.alt : '';
         lb.classList.add('on');
         document.body.style.overflow = 'hidden';
       }
